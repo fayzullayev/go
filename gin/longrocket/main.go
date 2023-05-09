@@ -16,6 +16,10 @@ func main() {
 
 	router.GET("/books", controllers.FindBooks)
 
-	router.Run(":3004")
+	err := router.Run(":3004")
+	
+	if err != nil {
+		return
+	}
 
 }
