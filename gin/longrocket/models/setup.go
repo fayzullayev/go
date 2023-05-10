@@ -1,9 +1,7 @@
 package models
 
 import (
-	_ "github.com/mattn/go-sqlite3"
 	"gorm.io/driver/postgres"
-	_ "gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -26,4 +24,5 @@ func ConnectDatabase() {
 	}
 
 	DB = database
+
 }
