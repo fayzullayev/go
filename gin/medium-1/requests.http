@@ -1,0 +1,22 @@
+DELETE http://localhost:8008/books/45
+Accept: application/json
+
+###
+POST http://localhost:8008/books
+Content-Type: application/json
+
+{
+  "ids": "45",
+  "title": "wefwefwef",
+  "author": "hwegbfjhwegbfjhwefwef"
+}
+
+###
+
+GET http://localhost:8008/books
+Accept: application/json
+
+###
+
+
+
