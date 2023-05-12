@@ -6,6 +6,7 @@ POST http://localhost:8008/books
 Content-Type: application/json
 
 {
+  "ids": "2",
   "title": "wefwefwef",
   "author": "hwegbfjhwegbfjhwefwef"
 }
