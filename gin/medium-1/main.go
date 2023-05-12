@@ -2,14 +2,30 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 	"log"
 	"net/http"
 )
 
-func main() {
-	var r *gin.Engine
+var db *gorm.DB
 
-	r = gin.Default()
+func main() {
+	var err error
+
+	db, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	err = db.AutoMigrate(&Book{})
+
+	if err != nil {
+		panic("failed to connect migrate")
+	}
+
+	r := gin.Default()
 
 	r.GET("/books", getAllBooks)
 	r.POST("/books", createBook)
@@ -24,25 +40,34 @@ type Book struct {
 	Author string `json:"author"`
 }
 
-var books = []Book{
-	{ID: "1", Title: "Harry Potter", Author: "J. K. Rowling"},
-	{ID: "2", Title: "The Lord of the Rings", Author: "J. R. R. Tolkien"},
-	{ID: "3", Title: "The Wizard of Oz", Author: "L. Frank Baum"},
-}
-
 func getAllBooks(c *gin.Context) {
-	c.JSON(http.StatusOK, books)
+	var books []Book
+
+	if result := db.Find(&books); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": books,
+	})
 }
 
 func createBook(c *gin.Context) {
 	var book Book
 
 	if err := c.ShouldBindJSON(&book); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"Error": "Wrong fields"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	books = append(books, book)
+	if result := db.Create(&book); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+	}
 
 	c.JSON(http.StatusCreated, book)
 }
@@ -50,11 +75,11 @@ func createBook(c *gin.Context) {
 func deleteBook(c *gin.Context) {
 	id := c.Param("id")
 
-	for i, a := range books {
-		if a.ID == id {
-			books = append(books[:i], books[i+1:]...)
-			break
-		}
+	if result := db.Delete(&Book{}, id); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
 	}
 
 	c.Status(http.StatusNoContent)
