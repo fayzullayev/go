@@ -1,0 +1,12 @@
+GET http://localhost:9000/status
+Accept: application/json
+
+###
+
+POST http://localhost:9000/send-email
+Accept: application/json
+
+{
+sender:""
+}
+###
