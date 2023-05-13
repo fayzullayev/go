@@ -25,6 +25,7 @@ func main() {
 
 	router.POST("/send-email", func(c *gin.Context) {
 		var emailHandler EmailJob
+
 		if err := c.ShouldBindJSON(&emailHandler); err != nil {
 			c.JSON(400, gin.H{"error": "Invalid input!", "er": err})
 			return

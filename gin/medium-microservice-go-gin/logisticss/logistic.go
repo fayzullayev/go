@@ -1,10 +1,9 @@
 package main
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
+	"log"
 )
 
 type EmailJob struct {
@@ -35,7 +34,9 @@ func createEmailJob(emailJob EmailJob) EmailJob {
 		log.Println("EmailServer: unable to connect EmailService")
 		return EmailJob{}
 	}
+
 	log.Printf("EmailServer: created email job #%v via EmailService", p.JobId)
+
 	return p
 }
 
@@ -51,7 +52,7 @@ func main() {
 		var logistics LogisticsJob
 
 		if err := c.ShouldBindJSON(&logistics); err != nil {
-			c.JSON(400, gin.H{"error": "Invalid input!", "er": err})
+			c.JSON(400, gin.H{"error": "Invalid input!", "er": err.Error()})
 			return
 		}
 
@@ -66,10 +67,9 @@ func main() {
 
 		//calling email server
 
-		result := createEmailJob(emailData)
+		emailData = createEmailJob(emailData)
 
-		c.JSON(200, result)
-
+		c.JSON(200, emailData)
 	})
 
 	log.Fatal(router.Run(":9001"))
