@@ -2,6 +2,8 @@ package helper
 
 import (
 	"diary_api/model"
+	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"os"
