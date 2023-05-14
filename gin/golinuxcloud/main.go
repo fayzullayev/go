@@ -1,7 +1,20 @@
 package main
 
-import "fmt"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 func main() {
-	fmt.Println("Hellgo")
+	r := gin.Default()
+
+	r.GET("/", func(c *gin.Context) {
+
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Welcome to building RESTful api",
+		})
+
+	})
+
+	r.Run(":5005")
 }
