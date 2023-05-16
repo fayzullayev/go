@@ -70,10 +70,8 @@ func CreateArticle(a *Article) (*Article, error) {
 
 func ReadArticle(id string) (*Article, error) {
 	var article Article
-	
-	res := DB.First(&article, id)
 
-	if res.RowsAffected == 0 {
+	if res := DB.First(&article, id).Error; res != nil {
 		return nil, errors.New("article not found")
 	}
 	return &article, nil
