@@ -76,3 +76,19 @@ func ReadArticle(id string) (*Article, error) {
 	}
 	return &article, nil
 }
+
+func ReadArticles() ([]*Article, error) {
+
+	var articles []*Article
+
+	if res := DB.Find(articles).Error; res != nil {
+		return articles, errors.New("author not found")
+	}
+
+	return articles, nil
+
+}
+
+func UpdateArticle(article *Article) (*Article, error) {
+
+}
