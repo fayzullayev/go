@@ -1,5 +1,30 @@
-GET http://localhost:5005/
+GET http://localhost:5000/
 Accept: application/json
 
 ###
-|Z||ZZ||||a
+
+POST http://localhost:5000/api/v1/articles
+Content-Type: application/json
+
+{
+  "title": "wefwe",
+  "description": "wefwe",
+  "rate": "wefwe"
+}
+
+###
+
+GET http://localhost:5000/api/v1/articles/2
+Accept: application/json
+
+###
+
+DELETE http://localhost:5000/api/v1/articles/3
+Accept: application/json
+
+###
+
+GET http://localhost:5000/api/v1/articles
+Accept: application/json
+
+###

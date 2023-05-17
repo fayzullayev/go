@@ -80,8 +80,9 @@ func ReadArticle(id string) (*Article, error) {
 func ReadArticles() ([]*Article, error) {
 
 	var articles []*Article
+	fmt.Println("ReadArticles : ")
 
-	if res := DB.Find(articles).Error; res != nil {
+	if res := DB.Find(&articles).Error; res != nil {
 		return articles, errors.New("author not found")
 	}
 
@@ -90,5 +91,25 @@ func ReadArticles() ([]*Article, error) {
 }
 
 func UpdateArticle(article *Article) (*Article, error) {
+	var updateArticle Article
 
+	result := DB.Model(&updateArticle).Where(article.ID).Updates(article)
+
+	if result.RowsAffected == 0 {
+		return &Article{}, errors.New("artcile not updated")
+	}
+
+	return &updateArticle, nil
+}
+
+func DeleteArticle(id string) error {
+	var deleteArticle Article
+
+	result := DB.Where(id).Delete(&deleteArticle)
+
+	if result.RowsAffected == 0 {
+		return errors.New("article data not deleted")
+	}
+
+	return nil
 }

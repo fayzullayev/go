@@ -1,21 +1,17 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"log"
-	"net/http"
+	"api/api"
+	"api/database"
 )
 
+func init() {
+	database.NewPostgresSQLClient()
+}
+
 func main() {
-	r := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
+	r := api.SetupRouter()
 
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Welcome to building RESTful api",
-		})
-
-	})
-
-	log.Fatal(r.Run(":5005"))
+	r.Run(":5000")
 }
