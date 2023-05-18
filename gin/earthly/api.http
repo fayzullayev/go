@@ -2,9 +2,24 @@ POST http://localhost:6666/company
 Content-Type: application/json
 
 {
-  "name": "Fido2222226622",
+  "name": "Fido2222226627862",
   "created": 2002,
   "product": "Qwernnynynyty"
 }
 
 ###
+
+GET http://localhost:6666/api/v1/Fido2222226622
+
+
+###
+PUT http://localhost:6666/api/v1/Fido
+Content-Type: application/json
+
+{
+  "created": 111111111111111
+}
+
+###
+
+DELETE http://localhost:6666/api/v1/Fido

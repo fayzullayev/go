@@ -8,7 +8,7 @@ import (
 type Companies struct {
 	Name    string `gorm:"primary_key" json:"name"`
 	Created int    `json:"created"`
-	Product string `json:"product" binding:"required"`
+	Product string `json:"product"`
 }
 
 func DBConnection() (*gorm.DB, error) {
