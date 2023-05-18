@@ -1,7 +1,7 @@
 package main
 
 import (
-	"earthly/controllers"
+	"earthly/application"
 	"earthly/model"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -16,10 +16,14 @@ func main() {
 
 	router := gin.Default()
 
-	router.GET("api/v1/:company", controllers.GetCompany(db))
-	router.POST("/company", controllers.PostCompany(db))
-	router.PUT("api/v1/:company", controllers.UpdateCompany(db))
-	router.DELETE("api/v1/:company", controllers.DeleteCompany(db))
+	app := application.App{
+		DB: db,
+	}
+
+	router.GET("api/v1/:company", app.GetCompany)
+	router.POST("/company", app.PostCompany)
+	router.PUT("api/v1/:company", app.UpdateCompany)
+	router.DELETE("api/v1/:company", app.DeleteCompany)
 
 	log.Fatal(router.Run(":6666"))
 
