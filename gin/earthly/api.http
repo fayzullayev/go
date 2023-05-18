@@ -2,9 +2,9 @@ POST http://localhost:6666/company
 Content-Type: application/json
 
 {
-  "name": "Fido22222222",
+  "name": "Fido2222226622",
   "created": 2002,
-  "product": "Qwerty"
+  "product": "Qwernnynynyty"
 }
 
 ###
