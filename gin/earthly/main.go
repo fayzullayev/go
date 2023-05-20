@@ -1,7 +1,6 @@
 package main
 
 import (
-	"earthly/application"
 	"earthly/model"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -16,7 +15,7 @@ func main() {
 
 	router := gin.Default()
 
-	app := application.App{
+	app := App{
 		DB: db,
 	}
 
