@@ -1,10 +1,10 @@
 package models
 
 import (
+	"errors"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"html"
-	"log"
 	"strings"
 )
 
@@ -16,19 +16,18 @@ type User struct {
 
 func (u *User) SaveUser() (*User, error) {
 	var err error
-	log.Println("SaveUser")
-	err = DB.Create(&u).Error
 
-	if err != nil {
-		return &User{}, err
+	err = DB.Create(u).Error
+
+	if err != nil || u.ID == 0 {
+		return &User{}, errors.New("duplicate key")
 	}
 
 	return u, nil
 }
 
 func (u *User) BeforeSave(tx *gorm.DB) error {
-	log.Println("BeforeSave")
-	//turn password into hash
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 
 	if err != nil {
@@ -37,7 +36,6 @@ func (u *User) BeforeSave(tx *gorm.DB) error {
 
 	u.Password = string(hashedPassword)
 
-	//remove spaces in username
 	u.Username = html.EscapeString(strings.TrimSpace(u.Username))
 
 	return nil

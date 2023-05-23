@@ -3,7 +3,6 @@ package controllers
 import (
 	"gin-tutorial/models"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 )
 
@@ -30,7 +29,9 @@ func Register(c *gin.Context) {
 	saveUser, err := user.SaveUser()
 
 	if err != nil {
-		log.Println("Error:", err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error": err.Error(),
+		})
 		return
 	}
 
