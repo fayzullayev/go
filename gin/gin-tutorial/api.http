@@ -1,0 +1,9 @@
+POST localhost:9999/api/register
+Content-Type: application/json
+
+{
+  "username": "Mirodil3",
+  "password": "123456"
+}
+
+###
