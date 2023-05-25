@@ -7,3 +7,18 @@ Content-Type: application/json
 }
 
 ###
+
+POST localhost:9999/api/login
+Content-Type: application/json
+
+{
+  "username": "Mirodil-99999333",
+  "password": "1234567"
+}
+
+###
+
+GET http://localhost:9999/api/admin/user
+###
+
+
