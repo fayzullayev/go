@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 )
 
@@ -29,12 +28,9 @@ func myLoggerTwo() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		fmt.Println("logger two")
 
-		context.JSON(http.StatusBadRequest, gin.H{
-			"error": "something went wrong",
+		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": "something went wrong: myLoggerTwo",
 		})
-
-		context.Abort()
-		return
 	}
 }
 
@@ -60,7 +56,7 @@ func authLogger() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		if context.Request.Header.Get("Authorizations") == "" {
 
-			context.JSON(http.StatusOK, gin.H{
+			context.AbortWithStatusJSON(http.StatusOK, gin.H{
 				"message": "access denied",
 			})
 
@@ -73,210 +69,146 @@ func authLogger() gin.HandlerFunc {
 
 func main() {
 
-	r := gin.Default()
+	// Disable log's color
+	gin.ForceConsoleColor()
 
-	r.Use(myLoggerTwo())
+	// Creates a gin router with default middleware:
+	// logger and recovery (crash-free) middleware
+	router := gin.New()
 
-	r.GET("/benchmark", myLoggerOne(), myLoggerThree(), func(context *gin.Context) {
-		context.JSON(http.StatusOK, gin.H{
-			"message": "Success",
-		})
-	})
+	router.Use(gin.CustomRecovery(func(c *gin.Context, recovered interface{}) {
 
-	r.GET("/login", func(context *gin.Context) {
-		context.JSON(http.StatusOK, gin.H{
-			"message": "welcome to login page",
-		})
-	})
-
-	r.POST("/login", func(context *gin.Context) {
-		context.JSON(http.StatusOK, gin.H{
-			"message": "logged successfully",
-		})
-	})
-
-	auth := r.Group("/api/v1")
-
-	auth.Use(authLogger())
-
-	auth.GET("/users", func(context *gin.Context) {
-
-		users := Users{
-			Users: []User{
-				{
-					Name: "Mirodil",
-					Age:  28,
-				},
-				{
-					Name: "Iroda",
-					Age:  21,
-				},
-			},
-			Count: 2,
+		switch recovered.(type) {
+		case string:
+			c.String(http.StatusInternalServerError, fmt.Sprintf("error: %s", recovered))
+		case int:
+			c.String(http.StatusInternalServerError, fmt.Sprintf("error  num: %v", recovered))
 		}
+		c.AbortWithStatus(http.StatusInternalServerError)
+	}))
 
-		context.JSON(http.StatusOK, gin.H{
-			"users":   users,
-			"cwecwec": "cwecwec",
-		})
+	router.GET("/ping", func(c *gin.Context) {
+		c.String(http.StatusOK, "pong")
+		panic("456")
 	})
 
-	//var router *gin.Engine
-	//
-	//router = gin.Default()
-	//
-	//gin.Def
-	//
-	//v1 := router.Group("/v1")
-	//
-	//v1.GET("/login", func(context *gin.Context) {
-	//	context.JSON(http.StatusOK, gin.H{
-	//		"message": "login",
-	//	})
-	//})
-	//
-	//v1.GET("/products", func(context *gin.Context) {
-	//	context.JSON(http.StatusOK, gin.H{
-	//		"message": "products",
-	//	})
-	//})
-	//
-	//v2 := router.Group("/etyuio")
-	//
-	//v2.GET("/products", func(context *gin.Context) {
-	//	context.JSON(http.StatusOK, gin.H{
-	//		"message": "login",
-	//	})
-	//})
-	//
-	//router.GET("/qwerty", func(context *gin.Context) {
-	//	context.JSON(http.StatusOK, gin.H{
-	//		"message": "qwerty",
-	//	})
-	//})
+	router.Run(":8088")
 
+	//router := gin.New()
 	//
-	////var name []string = []string{"Mirodil"}
-	////
-	////router.GET("/ping", func(context *gin.Context) {
+	//gin.Logger()
+	//
+	//router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+	//
+	//	return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
+	//		param.ClientIP,
+	//		param.TimeStamp.Format(time.RFC1123),
+	//		param.Method,
+	//		param.Path,
+	//		param.Request.Proto,
+	//		param.StatusCode,
+	//		param.Latency,
+	//		param.Request.UserAgent(),
+	//		param.ErrorMessage,
+	//	)
+	//}))
+	//
+	//router.Use(gin.Recovery())
+	//
+	//router.GET("/ping", func(c *gin.Context) {
+	//	c.String(http.StatusOK, "pong")
+	//})
+	//
+	//log.Fatal(router.Run(":8088"))
+
+	//// Disable Console Color, you don't need console color when writing the logs to file.
+	//gin.DisableConsoleColor()
+	//
+	//// Logging to a file.
+	//f, _ := os.Create("gin.log")
+	//gin.DefaultWriter = io.MultiWriter(f)
+	//
+	//gin.LoggerWithFormatter()
+	//
+	//// Use the following code if you need to write the logs to file and console at the same time.
+	//// gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+	//
+	//router := gin.Default()
+	//
+	//router.GET("/ping", func(c *gin.Context) {
+	//	c.String(http.StatusOK, "pong")
+	//})
+	//
+	//router.Run(":8088")
+
+	//r := gin.New()
+	//
+	//gin.Default()
+	//
+	//r.Use(gin.Logger())
+	//
+	//r.Use(gin.CustomRecovery(func(c *gin.Context, recovered interface{}) {
+	//	if err, ok := recovered.(string); ok {
+	//		c.String(http.StatusInternalServerError, fmt.Sprintf("error: %s", err))
+	//	}
+	//
+	//	c.AbortWithStatus(http.StatusInternalServerError)
+	//}))
+	//
+	//r.GET("/panic", func(c *gin.Context) {
+	//	// panic with a string -- the custom middleware could save this to a database or report it to the user
+	//	panic("foo")
+	//
+	//})
+	//
+	//r.GET("/", func(c *gin.Context) {
+	//	c.String(http.StatusOK, "ohai")
+	//})
+	//
+	////r.GET("/benchmark", myLoggerOne(), myLoggerTwo(), myLoggerThree(), func(context *gin.Context) {
 	////	context.JSON(http.StatusOK, gin.H{
-	////		"Hello": name,
+	////		"message": "Success",
+	////	})
+	////})
+	////
+	////r.GET("/login", func(context *gin.Context) {
+	////	context.JSON(http.StatusOK, gin.H{
+	////		"message": "welcome to login page",
+	////	})
+	////})
+	////
+	////r.POST("/login", func(context *gin.Context) {
+	////	context.JSON(http.StatusOK, gin.H{
+	////		"message": "logged successfully",
+	////	})
+	////})
+	////
+	////auth := r.Group("/api/v1")
+	////
+	////auth.Use(myLoggerThree(), myLoggerOne())
+	////
+	////auth.GET("/users", func(context *gin.Context) {
+	////
+	////	users := Users{
+	////		Users: []User{
+	////			{
+	////				Name: "Mirodil",
+	////				Age:  28,
+	////			},
+	////			{
+	////				Name: "Iroda",
+	////				Age:  21,
+	////			},
+	////		},
+	////		Count: 2,
+	////	}
+	////
+	////	context.JSON(http.StatusOK, gin.H{
+	////		"users":   users,
+	////		"cwecwec": "cwecwec",
 	////	})
 	////})
 	//
-	//router.GET("/product/:id", func(context *gin.Context) {
-	//	var id = context.Param("id")
-	//
-	//	context.JSON(http.StatusOK, gin.H{
-	//		"id": id,
-	//	})
-	//})
-	//
-	//router.GET("/users/:name/*age", func(context *gin.Context) {
-	//	var name = context.Param("name")
-	//	age := context.Param("age")
-	//
-	//	fmt.Println(context.FullPath())
-	//
-	//	context.JSON(http.StatusOK, gin.H{
-	//		"name": name,
-	//		"age":  age,
-	//	})
-	//})
-	//
-	//router.POST("/users/:name/*action", func(context *gin.Context) {
-	//	context.String(http.StatusOK, "%t", true)
-	//})
-	//
-	//router.GET("/users/:name", func(c *gin.Context) {
-	//	c.String(http.StatusOK, c.Param("name"))
-	//})
-	//
-	//router.GET("/users/groups", func(c *gin.Context) {
-	//
-	//	c.String(http.StatusOK, "The available groups are [...]")
-	//
-	//})
-	//
-	//router.GET("/welcome", func(context *gin.Context) {
-	//
-	//	firstname := context.DefaultQuery("firstname", "Guest")
-	//	lastname := context.Query("lastname")
-	//
-	//	context.String(http.StatusOK, "Hello %s %s", firstname, lastname)
-	//
-	//})
-	//
-	//router.POST("/form_post", func(context *gin.Context) {
-	//	message := context.PostForm("message")
-	//
-	//	nick := context.DefaultPostForm("nick", "anonymous")
-	//
-	//	context.JSON(http.StatusOK, gin.H{
-	//		"status":  "posted",
-	//		"message": message,
-	//		"nick":    nick,
-	//	})
-	//})
-	//
-	//router.POST("/post", func(context *gin.Context) {
-	//	id := context.Query("id")
-	//	page := context.DefaultQuery("page", "0")
-	//	name := context.PostForm("name")
-	//	message := context.DefaultPostForm("message", "Hello world")
-	//
-	//	context.String(http.StatusOK, "id: %s; page: %s; name: %s; message: %s", id, page, name, message)
-	//})
-	//
-	//router.POST("/post2", func(context *gin.Context) {
-	//
-	//	ids := context.QueryMap("ids")
-	//	names := context.PostFormMap("names")
-	//
-	//	context.JSON(http.StatusOK, gin.H{
-	//		"ids":   ids,
-	//		"names": names,
-	//	})
-	//})
-	//
-	//router.MaxMultipartMemory = 8 << 20
-	//
-	//router.POST("/upload", func(c *gin.Context) {
-	//
-	//	fmt.Println("Hello")
-	//	// Single file
-	//	file, err := c.FormFile("file")
-	//
-	//	if err != nil {
-	//		fmt.Println("Error1: ", err.Error())
-	//	}
-	//
-	//	log.Println(file.Filename)
-	//
-	//	// Upload the file to specific dst.
-	//	err = c.SaveUploadedFile(file, "./files/"+file.Filename)
-	//
-	//	if err != nil {
-	//		fmt.Println("Error : ", err.Error())
-	//		return
-	//	}
-	//
-	//	c.String(http.StatusOK, fmt.Sprintf("'%s' uploaded!", file.Filename))
-	//
-	//})
-	//
-	//router.POST("/upload2", func(c *gin.Context) {
-	//	// Multipart form
-	//	form, _ := c.MultipartForm()
-	//	files := form.File["upload[]"]
-	//
-	//	for _, file := range files {
-	//		// Upload the file to specific dst.
-	//		c.SaveUploadedFile(file, "./files/"+file.Filename)
-	//	}
-	//	c.String(http.StatusOK, fmt.Sprintf("%d files uploaded!", len(files)))
-	//})
-
-	log.Fatal(r.Run(":9999"))
+	//log.Fatal(r.Run(":9999"))
 
 }
