@@ -3,18 +3,19 @@ package main
 import "fmt"
 
 func main() {
-	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
-	// Original slice
-	fmt.Printf("numbers = %v\n", numbers)
-	fmt.Printf("length = %d\n", len(numbers))
-	fmt.Printf("capacity = %d\n", cap(numbers))
+	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	arrNum := numbers[7:]
 
-	// Create copy with only needed numbers
-	neededNumbers := numbers[:len(numbers)-10]
-	numbersCopy := make([]int, len(neededNumbers))
-	copy(numbersCopy, neededNumbers)
+	fmt.Println(arrNum)
+	fmt.Println("len()", len(arrNum))
+	fmt.Println("cap()", cap(arrNum))
 
-	fmt.Printf("numbersCopy = %v\n", numbersCopy)
-	fmt.Printf("length = %d\n", len(numbersCopy))
-	fmt.Printf("capacity = %d\n", cap(numbersCopy))
+	arrNum2 := make([]int, len(arrNum))
+
+	copy(arrNum2, arrNum)
+	fmt.Println("-----------")
+	fmt.Println(arrNum2)
+	fmt.Println("len()", len(arrNum2))
+	fmt.Println("cap()", cap(arrNum2))
+
 }
