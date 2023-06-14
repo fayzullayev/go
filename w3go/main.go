@@ -1,18 +1,12 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	var (
-		name = "Hello!"
-		age  = 1002
-	)
+	var i string = "Hello"
+	var j int = 15
 
-	name = "Mirodil"
-
-	fmt.Println(name)
-	fmt.Println(age)
-
+	fmt.Printf("i has value %v and type: %T\n", i, i)
+	fmt.Printf("j has %% value %v and type: %T\n", j, j)
+	fmt.Printf("%-40d\n", -10)
 }
