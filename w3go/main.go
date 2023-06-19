@@ -15,5 +15,7 @@ func factorialRecursion(x float64) (y float64) {
 
 func main() {
 	fmt.Println(factorialRecursion(40))
-	
+
 }
+
+//https://www.w3schools.com/go/go_struct.php
