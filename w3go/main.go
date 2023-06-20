@@ -1,42 +1,44 @@
 package main
 
-import (
-	"fmt"
-)
-
-type Person struct {
-	name   string
-	age    int
-	job    string
-	salary int
-}
+import "fmt"
 
 func main() {
-	var pers1 Person
-	var pers2 Person
+	//var a = make(map[string]string)
+	//a["brand"] = "Ford"
+	//a["model"] = "Mustang"
+	//a["year"] = "1964"
+	//
+	////val, ok := a["years"]
+	//
+	//fmt.Println(a["year"])
+	//
+	//var a = map[string]string{"brand": "Ford", "model": "Mustang", "year": "1964", "day": ""}
+	//
+	//for k, v := range a {
+	//	fmt.Println(k, v)
+	//}
 
-	// Pers1 specification
-	pers1.name = "Hege"
-	pers1.age = 45
-	pers1.job = "Teacher"
-	pers1.salary = 6000
+	//a := map[string]int{"one": 1, "two": 2, "three": 3, "four": 4}
+	//
+	//for k, v := range a {
+	//	fmt.Printf("%v : %v, ", k, v)
+	//}
 
-	// Pers2 specification
-	pers2.name = "Cecilie"
-	pers2.age = 24
-	pers2.job = "Marketing"
-	pers2.salary = 4500
+	a := map[string]int{"one": 1, "two": 2, "three": 3, "four": 4}
 
-	// Print Pers1 info by calling a function
-	printPerson(pers1)
+	var b []string // defining the order
 
-	// Print Pers2 info by calling a function
-	printPerson(pers2)
-}
+	b = append(b, "one", "two", "three", "four")
 
-func printPerson(pers Person) {
-	fmt.Println("Name: ", pers.name)
-	fmt.Println("Age: ", pers.age)
-	fmt.Println("Job: ", pers.job)
-	fmt.Println("Salary: ", pers.salary)
+	for k, v := range a { // loop with no order
+		fmt.Printf("%v : %v, ", k, v)
+	}
+
+	fmt.Println(b)
+	fmt.Println()
+
+	for _, element := range b { // loop with the defined order
+		fmt.Printf("%v : %v, ", element, a[element])
+	}
+
 }
