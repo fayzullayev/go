@@ -3,42 +3,20 @@ package main
 import "fmt"
 
 func main() {
-	//var a = make(map[string]string)
-	//a["brand"] = "Ford"
-	//a["model"] = "Mustang"
-	//a["year"] = "1964"
-	//
-	////val, ok := a["years"]
-	//
-	//fmt.Println(a["year"])
-	//
-	//var a = map[string]string{"brand": "Ford", "model": "Mustang", "year": "1964", "day": ""}
-	//
-	//for k, v := range a {
-	//	fmt.Println(k, v)
-	//}
+	a := make([]int, 4)
+	printSlice("a", a)
 
-	//a := map[string]int{"one": 1, "two": 2, "three": 3, "four": 4}
-	//
-	//for k, v := range a {
-	//	fmt.Printf("%v : %v, ", k, v)
-	//}
+	b := make([]int, 0, 4)
+	printSlice("b", b)
 
-	a := map[string]int{"one": 1, "two": 2, "three": 3, "four": 4}
+	c := b[:2]
+	printSlice("c", c)
 
-	var b []string // defining the order
+	d := c[2:5]
+	printSlice("d", d)
+}
 
-	b = append(b, "one", "two", "three", "four")
-
-	for k, v := range a { // loop with no order
-		fmt.Printf("%v : %v, ", k, v)
-	}
-
-	fmt.Println(b)
-	fmt.Println()
-
-	for _, element := range b { // loop with the defined order
-		fmt.Printf("%v : %v, ", element, a[element])
-	}
-
+func printSlice(s string, x []int) {
+	fmt.Printf("%s len=%d cap=%d %v\n",
+		s, len(x), cap(x), x)
 }
