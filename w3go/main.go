@@ -2,21 +2,17 @@ package main
 
 import "fmt"
 
-func main() {
-	a := make([]int, 4)
-	printSlice("a", a)
-
-	b := make([]int, 0, 4)
-	printSlice("b", b)
-
-	c := b[:2]
-	printSlice("c", c)
-
-	d := c[2:5]
-	printSlice("d", d)
+func adder() func(int) int {
+	sum := 0
+	return func(x int) int {
+		sum += x
+		return sum
+	}
 }
 
-func printSlice(s string, x []int) {
-	fmt.Printf("%s len=%d cap=%d %v\n",
-		s, len(x), cap(x), x)
+func main() {
+	pos := adder()
+
+	fmt.Println(pos(1))
+	fmt.Println(pos(1))
 }
