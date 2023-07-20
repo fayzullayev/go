@@ -2,24 +2,26 @@ package main
 
 import (
 	"fmt"
-	"golang.org/x/tour/wc"
-	"strings"
+	"math"
 )
 
-func WordCount(s string) map[string]int {
-	words := make(map[string]int)
+type Vertex struct {
+	X, Y float64
+}
 
-	for _, v := range strings.Fields(s) {
-		if _, ok := words[v]; ok {
-			words[v]++
-		} else {
-			words[v] = 1
-		}
-	}
-	fmt.Println("words", words)
-	return words
+func Abs(v Vertex) float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 
 func main() {
-	wc.Test(WordCount)
+
+	var v Vertex
+
+	v = Vertex{
+		X: 40,
+		Y: 30,
+	}
+
+	fmt.Println(Abs(v))
+
 }
