@@ -1,12 +1,25 @@
 package main
 
-func main() {
-	//fmt.Println("counting")
-	//
-	//for i := 0; i < 10; i++ {
-	//	defer fmt.Println(i)
-	//}
-	//
-	//fmt.Println("done")
+import (
+	"fmt"
+	"golang.org/x/tour/wc"
+	"strings"
+)
 
+func WordCount(s string) map[string]int {
+	words := make(map[string]int)
+
+	for _, v := range strings.Fields(s) {
+		if _, ok := words[v]; ok {
+			words[v]++
+		} else {
+			words[v] = 1
+		}
+	}
+	fmt.Println("words", words)
+	return words
+}
+
+func main() {
+	wc.Test(WordCount)
 }
