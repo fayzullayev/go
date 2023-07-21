@@ -1,27 +1,18 @@
 package main
 
-import (
-	"fmt"
-	"math"
-)
-
-type Vertex struct {
-	X, Y float64
-}
-
-func Abs(v Vertex) float64 {
-	return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
+import "fmt"
 
 func main() {
+	var i interface{}
+	describe(i)
 
-	var v Vertex
+	i = 42
+	describe(i)
 
-	v = Vertex{
-		X: 40,
-		Y: 30,
-	}
+	i = "hello"
+	describe(i)
+}
 
-	fmt.Println(Abs(v))
-
+func describe(i interface{}) {
+	fmt.Printf("(%v, %T)\n", i, i)
 }
