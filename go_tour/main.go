@@ -1,18 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func main() {
-	var i interface{}
-	describe(i)
+	i, err := strconv.Atoi("42")
 
-	i = 42
-	describe(i)
+	if err != nil {
+		fmt.Printf("couldn't convert number: %v\n", err)
+		return
+	}
 
-	i = "hello"
-	describe(i)
-}
-
-func describe(i interface{}) {
-	fmt.Printf("(%v, %T)\n", i, i)
+	fmt.Println("Converted integer:", i)
 }
