@@ -2,16 +2,21 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	"io"
+	"strings"
 )
 
 func main() {
-	i, err := strconv.Atoi("43333sdgvsdvds2")
+	r := strings.NewReader("Hello, Reader!")
 
-	if err != nil {
-		fmt.Printf("couldn't convert number: %v\n", err)
-		return
+	b := make([]byte, 8)
+
+	for {
+		n, err := r.Read(b)
+		fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
+		fmt.Printf("b[:n] = %q\n", b[:n])
+		if err == io.EOF {
+			break
+		}
 	}
-
-	fmt.Println("Converted integer:", i)
 }
