@@ -1,12 +1,16 @@
 package main
 
-import (
-	"fmt"
-)
+//const (
+//	name           = "John"
+//	age            = 50
+//	country string = "Uz"
+//)
 
 func main() {
-	// i := 55 //int
-	j := 67.8     //float64
-	sum := 55 + j //int + float64 not allowed
-	fmt.Println(sum)
+	c := 50
+	var b string = "I love Go"
+	const a = 55
+	c = 22
+	b = "A new beginning"
+	a = 89 //not allowed
 }
