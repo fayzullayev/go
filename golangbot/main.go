@@ -1,16 +1,15 @@
 package main
 
-//const (
-//	name           = "John"
-//	age            = 50
-//	country string = "Uz"
-//)
+import (
+	"fmt"
+)
 
+func rectProps(length, width float64) (float64, float64) {
+	var area = length * width
+	var perimeter = (length + width) * 2
+	return area, perimeter
+}
 func main() {
-	c := 50
-	var b string = "I love Go"
-	const a = 55
-	c = 22
-	b = "A new beginning"
-	a = 89 //not allowed
+	area, _ := rectProps(10.8, 5.6) // perimeter is discarded
+	fmt.Printf("Area %v ", area)
 }
