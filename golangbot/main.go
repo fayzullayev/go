@@ -7,5 +7,4 @@ func main() {
 	for {
 		fmt.Println("Hello World")
 	}
-
 }
