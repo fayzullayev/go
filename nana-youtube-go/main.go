@@ -31,7 +31,7 @@ func main() {
 
 	fmt.Println("Enter number of tickets name: ")
 	fmt.Scan(&userTickets)
-
+ 
 	remainingTickets = remainingTickets - userTickets
 
 	bookings = append(bookings, firstName+" "+lastName)
