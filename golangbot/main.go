@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func main() {
+	var a = [3]string{"A", "B", "C"}
+	var b = [3]string{"A", "B", "C"}
 
-	for {
-		fmt.Println("Hello World")
-	}
+	fmt.Println(a == b)
 }
