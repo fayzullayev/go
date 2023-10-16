@@ -13,6 +13,8 @@ func main() {
 
 	fmt.Println(conferenceName)
 
+	var bookings []string
+
 	var firstName string
 	var lastName string
 	var email string
@@ -31,6 +33,8 @@ func main() {
 	fmt.Scan(&userTickets)
 
 	remainingTickets = remainingTickets - userTickets
+
+	bookings = append(bookings, firstName+" "+lastName)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email as %v\n", firstName, lastName, userTickets, email)
 }
