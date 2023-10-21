@@ -44,7 +44,7 @@ func main() {
 		if i.pizzaNumber <= numberOfPizzas {
 			if i.success {
 				color.Green(i.message)
-				color.Green("Order #d is out for delivery!", i.pizzaNumber)
+				color.Green("Order #d iss out for delivery!", i.pizzaNumber)
 			} else {
 				color.Red(i.message)
 				color.Red("The costumer is really mad!")
