@@ -1,10 +1,10 @@
 package main
 
-import "fmt"
+type Describer interface {
+	Describe()
+}
 
 func main() {
-
-	for {
-		fmt.Println("Hello World")
-	}
+	var d1 Describer
+	d1.Describe()
 }
