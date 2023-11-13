@@ -20,16 +20,15 @@ func main() {
 
 	if err != nil {
 		fmt.Println(1, err)
-
 		return
 	}
 
-	err = db.Ping()
-
-	if err != nil {
-		fmt.Println(2, err)
-		return
-	}
+	//err = db.Ping()
+	//
+	//if err != nil {
+	//	fmt.Println(2, err)
+	//	return
+	//}
 
 	var todos []Todo
 
@@ -63,7 +62,7 @@ func main() {
 func initDB() (*sql.DB, error) {
 	const (
 		user     = "mirodil"
-		password = "123456789"
+		password = "1234567890"
 		host     = "localhost"
 		port     = 5432
 		dbname   = "todos"
@@ -76,14 +75,14 @@ func initDB() (*sql.DB, error) {
 	db, err := sql.Open("pgx", psqlInfo)
 
 	if err != nil {
-		log.Fatalf("Error %s", err)
+		log.Fatalf("1. Error %s", err)
 		return nil, err
 	}
 
 	err = db.Ping()
 
 	if err != nil {
-		log.Fatalf("Error%s", err)
+		log.Fatalf("2. Error%s", err)
 		return nil, err
 	}
 
