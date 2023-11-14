@@ -2,9 +2,19 @@ package main
 
 import "fmt"
 
-func main() {
-	var a = [3]string{"A", "B", "C"}
-	var b = [3]string{"A", "B", "C"}
+// Define a new type based on `int`.
+type myInt int
 
-	fmt.Println(a == b)
+// Define a method on `myInt`.
+func (a myInt) add(b myInt) myInt {
+	return a + b
+}
+
+func main() {
+	// Use the new type with the method.
+	var num1 myInt = 10
+	var num2 myInt = 20
+
+	result := num1.add(num2)
+	fmt.Println(result)
 }
