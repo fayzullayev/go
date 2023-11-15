@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/jackc/pgx/v5/stdlib"
+	_ "github.com/joho/godotenv/autoload"
 	"log"
+	"os"
 )
 
 type Todo struct {
@@ -12,81 +14,41 @@ type Todo struct {
 	Title string `json:"title"`
 }
 
-func main() {
-	fmt.Println("Hello World")
-
-	db, err := initDB()
-
-	defer db.Close()
-
-	if err != nil {
-		fmt.Println(1, err)
-		return
-	}
-
-	//err = db.Ping()
-	//
-	//if err != nil {
-	//	fmt.Println(2, err)
-	//	return
-	//}
-
-	var todos []Todo
-
-	rows, err := db.Query("SELECT * from todos")
-
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-
-	for rows.Next() {
-		var todo Todo
-		err = rows.Scan(&todo.Id, &todo.Title)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		todos = append(todos, todo)
-	}
-
-	err = rows.Err()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("todos", todos)
+func DSN() string {
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s", os.Getenv("HOST"), os.Getenv("PORT"), os.Getenv("DATABEUSER"), os.Getenv("PASSWORD"), os.Getenv("DBNAME"))
 }
 
-func initDB() (*sql.DB, error) {
-	const (
-		user     = "mirodil"
-		password = "1234567890"
-		host     = "localhost"
-		port     = 5432
-		dbname   = "todos"
-	)
+func main() {
+	db := initDB()
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			fmt.Println("Can not close the database connection")
+		}
+	}(db)
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-
-	db, err := sql.Open("pgx", psqlInfo)
+	err := db.Ping()
 
 	if err != nil {
-		log.Fatalf("1. Error %s", err)
-		return nil, err
+		log.Fatalf("Connection error(Ping) %v", err)
+	}
+
+}
+
+func initDB() *sql.DB {
+	db, err := sql.Open("pgx", DSN())
+
+	if err != nil {
+		log.Fatalf("Connection error %v", err)
 	}
 
 	err = db.Ping()
 
 	if err != nil {
-		log.Fatalf("2. Error%s", err)
-		return nil, err
+		log.Fatalf("Connection error(Ping) %v", err)
 	}
 
-	return db, nil
+	fmt.Println("Successfully connected")
 
+	return db
 }
