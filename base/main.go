@@ -16,6 +16,7 @@ func main() {
 	fmt.Println("Hello World")
 
 	db, err := initDB()
+
 	defer db.Close()
 
 	if err != nil {
