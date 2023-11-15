@@ -15,6 +15,15 @@ type Todo struct {
 	Title string `json:"title"`
 }
 
+type User struct {
+	Id          int    `json:"id"`
+	FirstName   string `json:"firstName"`
+	LastName    string `json:"lastName"`
+	Age         int    `json:"age"`
+	Job         string `json:"job"`
+	PhoneNumber string `json:"phoneNumber"`
+}
+
 func main() {
 
 	db := initDB()
@@ -25,17 +34,17 @@ func main() {
 		}
 	}(db)
 
-	rows, err := db.Query("SELECT * FROM todos")
+	rows, err := db.Query("SELECT * FROM users")
 
 	if err != nil {
 		log.Fatalf("1. Database error %v", err)
 	}
 
-	var todos []Todo
+	var todos []User
 
 	for rows.Next() {
-		var todo Todo
-		err = rows.Scan(&todo.Id, &todo.Title)
+		var todo User
+		err = rows.Scan(&todo.Id, &todo.FirstName, &todo.LastName, &todo.Age, &todo.Job, &todo.PhoneNumber)
 
 		if err != nil {
 			log.Fatalf("2. Database error %v", err)
@@ -43,7 +52,9 @@ func main() {
 		todos = append(todos, todo)
 	}
 
-	fmt.Printf("%+v", todos)
+	for i, v := range todos {
+		fmt.Printf("%d. %+v\n", i, v)
+	}
 }
 
 func initDB() *sql.DB {
