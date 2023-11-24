@@ -1,6 +1,9 @@
 package todos
 
-import "fmt"
+import (
+	"database/sql"
+	"fmt"
+)
 
 func (t *Todo) GetTodoById() error {
 	if err := db.QueryRow("SELECT * FROM todos WHERE id = ?", t.Id).Scan(&t.Id, &t.Title); err != nil {
@@ -11,9 +14,16 @@ func (t *Todo) GetTodoById() error {
 
 func GetTodos() ([]Todo, error) {
 	rows, err := db.Query("SELECT * FROM todos")
+
 	if err != nil {
 		return nil, err
 	}
+	defer func(rows *sql.Rows) {
+		err = rows.Close()
+		if err != nil {
+			fmt.Println("Error")
+		}
+	}(rows)
 
 	var todos []Todo
 
@@ -22,5 +32,8 @@ func GetTodos() ([]Todo, error) {
 		if err = rows.Scan(&todo.Id, &todo.Title); err != nil {
 			fmt.Println("Error")
 		}
+		todos = append(todos, todo)
 	}
+
+	return todos, nil
 }

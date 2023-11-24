@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 	"log"
+	"sqltutorial/todos"
 	"sqltutorial/users"
 )
 
@@ -48,7 +49,29 @@ func main() {
 		return
 	}
 
-	fmt.Printf("User: %+v", user)
+	fmt.Printf("User: %+v\n", user)
+
+	fmt.Println("---------------Todos-----------------")
+
+	todo := todos.Todo{Id: 3}
+
+	err = todo.GetTodoById()
+
+	if err != nil {
+		log.Fatal("User does not exist")
+	}
+
+	fmt.Printf("Todo: %+v\n", todo)
+
+	todosList, err := todos.GetTodos()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for index, value := range todosList {
+		fmt.Printf("%d. %+v\n", index, value)
+	}
 
 }
 
@@ -64,6 +87,7 @@ func setupDB() (*sql.DB, error) {
 	}
 
 	users.SetDB(db)
+	todos.SetDB(db)
 
 	return db, nil
 }
