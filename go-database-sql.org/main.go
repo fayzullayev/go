@@ -23,7 +23,7 @@ func main() {
 		}
 	}(db)
 
-	fmt.Println("--------------------------------------")
+	fmt.Println("--------------------------------------", sql.Drivers())
 	fmt.Println("Successfully connected to the database")
 	fmt.Println("--------------------------------------")
 
@@ -53,7 +53,7 @@ func main() {
 
 	fmt.Println("---------------Todos-----------------")
 
-	todo := todos.Todo{Id: 3}
+	todo := todos.Todo{Id: 30}
 
 	err = todo.GetTodoById()
 
