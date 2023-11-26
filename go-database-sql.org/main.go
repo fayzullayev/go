@@ -30,7 +30,7 @@ func main() {
 	usersList, err := users.GetUsers()
 
 	if err != nil {
-		fmt.Printf("Something went wrong:\n%v", err.Error())
+		fmt.Printf("Something went wrong :\n%v", err.Error())
 		return
 	}
 
