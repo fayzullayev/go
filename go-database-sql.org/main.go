@@ -53,7 +53,7 @@ func main() {
 
 	fmt.Println("---------------Todos-----------------")
 
-	todo := todos.Todo{Id: 30}
+	todo := todos.Todo{Id: 4}
 
 	err = todo.GetTodoById()
 

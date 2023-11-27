@@ -19,9 +19,7 @@ func (u *User) GetUsersById() error {
 		}
 	}(stmt)
 
-	err = stmt.QueryRow(u.Id).Scan(&u.Id, &u.FirstName, &u.LastName, &u.Age, &u.Job, &u.PhoneNumber)
-
-	if err != nil {
+	if err = stmt.QueryRow(u.Id).Scan(&u.Id, &u.FirstName, &u.LastName, &u.Age, &u.Job, &u.PhoneNumber); err != nil {
 		return err
 	}
 

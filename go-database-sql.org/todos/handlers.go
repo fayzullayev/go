@@ -18,6 +18,7 @@ func GetTodos() ([]Todo, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	defer func(rows *sql.Rows) {
 		err = rows.Close()
 		if err != nil {
