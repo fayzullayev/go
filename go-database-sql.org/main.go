@@ -26,51 +26,65 @@ func main() {
 	fmt.Println("--------------------------------------", sql.Drivers())
 	fmt.Println("Successfully connected to the database")
 	fmt.Println("--------------------------------------")
+	//
+	//usersList, err := users.GetUsers()
+	//
+	//if err != nil {
+	//	fmt.Printf("Something went wrong :\n%v", err.Error())
+	//	return
+	//}
+	//
+	//for index, value := range usersList {
+	//	fmt.Printf("%d. %+v\n", index, value)
+	//}
+	//
+	//fmt.Println("--------------------------------------")
+	//
+	//user := users.User{Id: 25}
+	//
+	//err = user.GetUsersById()
+	//
+	//if err != nil {
+	//	fmt.Println("error", err)
+	//	return
+	//}
+	//
+	//fmt.Printf("User: %+v\n", user)
+	//
+	//fmt.Println("---------------Todos-----------------")
+	//
+	//todo := todos.Todo{Id: 4}
+	//
+	//err = todo.GetTodoById()
+	//
+	//if err != nil {
+	//	log.Fatal("User does not exist")
+	//}
+	//
+	//fmt.Printf("Todo: %+v\n", todo)
+	//
+	//todosList, err := todos.GetTodos()
+	//
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//for index, value := range todosList {
+	//	fmt.Printf("%d. %+v\n", index, value)
+	//}
 
-	usersList, err := users.GetUsers()
+	user := users.User{
+		FirstName:   "Mirodil",
+		LastName:    "Fayzullayev",
+		Age:         29,
+		Job:         "Programmer",
+		PhoneNumber: "+99890971101",
+	}
+
+	err = user.Save()
 
 	if err != nil {
-		fmt.Printf("Something went wrong :\n%v", err.Error())
-		return
-	}
-
-	for index, value := range usersList {
-		fmt.Printf("%d. %+v\n", index, value)
-	}
-
-	fmt.Println("--------------------------------------")
-
-	user := users.User{Id: 25}
-
-	err = user.GetUsersById()
-
-	if err != nil {
-		fmt.Println("error", err)
-		return
-	}
-
-	fmt.Printf("User: %+v\n", user)
-
-	fmt.Println("---------------Todos-----------------")
-
-	todo := todos.Todo{Id: 4}
-
-	err = todo.GetTodoById()
-
-	if err != nil {
-		log.Fatal("User does not exist")
-	}
-
-	fmt.Printf("Todo: %+v\n", todo)
-
-	todosList, err := todos.GetTodos()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for index, value := range todosList {
-		fmt.Printf("%d. %+v\n", index, value)
+		log.Fatal(1, err)
 	}
 
 }
