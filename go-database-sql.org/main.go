@@ -40,12 +40,12 @@ func main() {
 
 	fmt.Println("--------------------------------------")
 
-	user := users.User{Id: 25}
+	user := users.User{Id: 20, LastName: "Lee"}
 
 	err = user.GetUsersById()
 
 	if err != nil {
-		fmt.Println("error", err)
+		fmt.Println("error1", err)
 		return
 	}
 

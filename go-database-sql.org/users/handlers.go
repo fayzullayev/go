@@ -2,15 +2,18 @@ package users
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 )
 
 func (u *User) GetUsersById() error {
-	stmt, err := db.Prepare("SELECT id, firstName, lastName, age, job, phoneNumber FROM users WHERE id = ?")
+	stmt, err := db.Prepare("SELECT id, firstName, lastName, age, job, phoneNumber FROM users WHERE id = ? AND lastName = ?")
 
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("%+v", u)
 
 	defer func(stmt *sql.Stmt) {
 		err = stmt.Close()
@@ -19,7 +22,7 @@ func (u *User) GetUsersById() error {
 		}
 	}(stmt)
 
-	if err = stmt.QueryRow(u.Id).Scan(&u.Id, &u.FirstName, &u.LastName, &u.Age, &u.Job, &u.PhoneNumber); err != nil {
+	if err = stmt.QueryRow(u.Id, u.LastName).Scan(&u.Id, &u.FirstName, &u.LastName, &u.Age, &u.Job, &u.PhoneNumber); err != nil {
 		return err
 	}
 
