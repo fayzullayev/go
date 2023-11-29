@@ -1,1 +1,7 @@
-package chatgptsql
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello")
+}
