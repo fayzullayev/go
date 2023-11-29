@@ -29,6 +29,43 @@ func (u *User) GetUsersById() error {
 	return nil
 }
 
+func (u *User) Save() error {
+	stmt, err := db.Prepare("INSERT INTO users(firstName, lastName, age, job, phoneNumber) VALUES (?, ?, ?, ?, ?)")
+
+	if err != nil {
+		return err
+	}
+
+	defer func(stmt *sql.Stmt) {
+		err = stmt.Close()
+		if err != nil {
+			log.Fatal("Closing error")
+		}
+	}(stmt)
+
+	res, err := stmt.Exec(u.FirstName, u.LastName, u.Age, u.Job, u.PhoneNumber)
+
+	if err != nil {
+		return err
+	}
+
+	lastId, err := res.LastInsertId()
+
+	if err != nil {
+		return err
+	}
+
+	rowCnt, err := res.RowsAffected()
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("lastId", lastId, "rowCnt", rowCnt)
+
+	return nil
+}
+
 func GetUsers() ([]User, error) {
 	var users []User
 	rows, err := db.Query("SELECT * FROM  users LIMIT  5")
