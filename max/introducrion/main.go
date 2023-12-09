@@ -1,4 +1,4 @@
-package hh
+package main
 
 import (
 	"fmt"
