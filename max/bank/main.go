@@ -12,7 +12,7 @@ func main() {
 	fmt.Println("Welcome to Go Bank!")
 	fmt.Println("What do you want to do?")
 
-BankOperations:
+mainLoop:
 	for {
 		fmt.Println("-----------------------")
 		fmt.Println("1. Check balance")
@@ -34,7 +34,7 @@ BankOperations:
 		case 2:
 		case 3:
 		case 4:
-			break BankOperations
+			break mainLoop
 		default:
 
 		}

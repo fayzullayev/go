@@ -31,6 +31,7 @@ func main() {
 }
 
 func getUserInputs(investmentAmount, expectedReturnRate, years *float64) {
+
 	fmt.Print("Investment Amount: ")
 	_, err := fmt.Scan(investmentAmount)
 	if err != nil {
