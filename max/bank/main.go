@@ -1,19 +1,54 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
+	"os"
+	"strconv"
 )
 
+const FileName = "balance.txt"
+
+func getBalanceFromFile() (float64, error) {
+	data, err := os.ReadFile("./" + FileName)
+	if err != nil {
+		return 1000.0, errors.New("failed to find balance file")
+	}
+
+	balanceText := string(data)
+
+	balance, err := strconv.ParseFloat(balanceText, 64)
+	if err != nil {
+		return 1000.0, errors.New("failed to parse stored balance value")
+	}
+
+	return balance, nil
+
+}
+
+func writeBalanceToFile(balance float64) {
+	balanceText := fmt.Sprint(balance)
+	err := os.WriteFile(FileName, []byte(balanceText), 0644)
+	if err != nil {
+		log.Fatal(4, err)
+	}
+}
+
 func main() {
-	var accountBalance = 1000.0
+	var accountBalance, err = getBalanceFromFile()
+
+	if err != nil {
+		fmt.Println("Error", err)
+		panic("Sorry bitch")
+	}
 
 	fmt.Println("-----------------------")
 	fmt.Println("Welcome to Go Bank!")
-	fmt.Println("What do you want to do?")
 
 mainLoop:
 	for {
+		fmt.Println("What do you want to do?")
 		fmt.Println("-----------------------")
 		fmt.Println("1. Check balance")
 		fmt.Println("2. Deposit money")
@@ -28,10 +63,12 @@ mainLoop:
 			log.Fatal(1, err)
 		}
 
-		if choice == 1 {
+		switch choice {
+		case 1:
 			fmt.Println("-----------------------")
 			fmt.Println("Your balance is", accountBalance)
-		} else if choice == 2 {
+
+		case 2:
 			fmt.Print("Your deposit: ")
 			var depositAmount float64
 			_, err = fmt.Scan(&depositAmount)
@@ -45,7 +82,8 @@ mainLoop:
 			}
 			accountBalance += depositAmount
 			fmt.Println("Balance updated! New amount: ", accountBalance)
-		} else if choice == 3 {
+			writeBalanceToFile(accountBalance)
+		case 3:
 			fmt.Print("Withdrawal amount: ")
 			var withdrawalAmount float64
 			_, err = fmt.Scan(&withdrawalAmount)
@@ -60,10 +98,10 @@ mainLoop:
 			}
 			accountBalance -= withdrawalAmount
 			fmt.Println("Balance updated! New amount: ", accountBalance)
-		} else {
+			writeBalanceToFile(accountBalance)
+		default:
 			break mainLoop
 		}
-
 		//switch choice {
 		//case 1:
 		//	fmt.Println("-----------------------")
