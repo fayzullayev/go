@@ -58,7 +58,7 @@ mainLoop:
 
 		var choice int
 		fmt.Print("Your choice: ")
-		_, err := fmt.Scan(&choice)
+		_, err = fmt.Scan(&choice)
 		if err != nil {
 			log.Fatal(1, err)
 		}
