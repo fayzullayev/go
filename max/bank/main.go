@@ -10,33 +10,33 @@ import (
 
 const FileName = "balance.txt"
 
-func getBalanceFromFile() (float64, error) {
-	data, err := os.ReadFile("./" + FileName)
+func getFloatFromFile(fileName string) (float64, error) {
+	data, err := os.ReadFile(fileName)
 	if err != nil {
-		return 1000.0, errors.New("failed to find balance file")
+		return 1000.0, errors.New("failed to find file")
 	}
 
-	balanceText := string(data)
+	valueText := string(data)
 
-	balance, err := strconv.ParseFloat(balanceText, 64)
+	value, err := strconv.ParseFloat(valueText, 64)
 	if err != nil {
-		return 1000.0, errors.New("failed to parse stored balance value")
+		return 1000.0, errors.New("failed to parse stored value")
 	}
 
-	return balance, nil
+	return value, nil
 
 }
 
-func writeBalanceToFile(balance float64) {
-	balanceText := fmt.Sprint(balance)
-	err := os.WriteFile(FileName, []byte(balanceText), 0644)
+func writeBalanceToFile(value float64, fileName string) {
+	valueText := fmt.Sprint(value)
+	err := os.WriteFile(fileName, []byte(valueText), 0644)
 	if err != nil {
 		log.Fatal(4, err)
 	}
 }
 
 func main() {
-	var accountBalance, err = getBalanceFromFile()
+	var accountBalance, err = getFloatFromFile(FileName)
 
 	if err != nil {
 		fmt.Println("Error", err)
@@ -48,13 +48,7 @@ func main() {
 
 mainLoop:
 	for {
-		fmt.Println("What do you want to do?")
-		fmt.Println("-----------------------")
-		fmt.Println("1. Check balance")
-		fmt.Println("2. Deposit money")
-		fmt.Println("3. Withdraw money")
-		fmt.Println("4. Exit")
-		fmt.Println("-----------------------")
+		presentOptions()
 
 		var choice int
 		fmt.Print("Your choice: ")
@@ -82,7 +76,7 @@ mainLoop:
 			}
 			accountBalance += depositAmount
 			fmt.Println("Balance updated! New amount: ", accountBalance)
-			writeBalanceToFile(accountBalance)
+			writeBalanceToFile(accountBalance, FileName)
 		case 3:
 			fmt.Print("Withdrawal amount: ")
 			var withdrawalAmount float64
@@ -98,22 +92,10 @@ mainLoop:
 			}
 			accountBalance -= withdrawalAmount
 			fmt.Println("Balance updated! New amount: ", accountBalance)
-			writeBalanceToFile(accountBalance)
+			writeBalanceToFile(accountBalance, FileName)
 		default:
 			break mainLoop
 		}
-		//switch choice {
-		//case 1:
-		//	fmt.Println("-----------------------")
-		//	fmt.Println("Your balance:", accountBalance)
-		//case 2:
-		//case 3:
-		//case 4:
-		//	break mainLoop
-		//default:
-		//	fmt.Println("-----------------------")
-		//	fmt.Println("Wrong choice")
-		//}
 	}
 
 	fmt.Println("Thank you for your operation")
