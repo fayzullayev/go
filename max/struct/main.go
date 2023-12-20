@@ -1,21 +1,37 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"time"
 )
 
-type user struct {
+type User struct {
 	firstName, lastName, birthDate string
 	age                            int
 	createdAt                      time.Time
 }
 
-func (u *user) outPutUserDetails() {
+func NewUser(firstName, lastName, birthDate string) (*User, error) {
+
+	if firstName == "" || lastName == "" || birthDate == "" {
+		return nil, errors.New("validation error")
+	}
+
+	return &User{
+		firstName: firstName,
+		lastName:  lastName,
+		birthDate: birthDate,
+		age:       0,
+		createdAt: time.Now(),
+	}, nil
+}
+
+func (u *User) outPutUserDetails() {
 	fmt.Println(u.firstName, u.lastName, u.birthDate)
 }
 
-func (u *user) clearUserName() {
+func (u *User) clearUserName() {
 	u.firstName = "xxx"
 	u.lastName = "xxx"
 }
@@ -25,13 +41,10 @@ func main() {
 	lastName := getUserData("Please enter your last name: ")
 	birthDate := getUserData("Please enter your birthdate (MM/DD/YYYY): ")
 
-	var appUser user
+	appUser, err := NewUser(firstName, lastName, birthDate)
 
-	appUser = user{
-		firstName: firstName,
-		lastName:  lastName,
-		birthDate: birthDate,
-		createdAt: time.Now(),
+	if err != nil {
+		panic("Error -- " + err.Error())
 	}
 
 	fmt.Printf("%+v\n", appUser)
@@ -44,6 +57,6 @@ func main() {
 func getUserData(promptText string) string {
 	fmt.Print(promptText)
 	var value string
-	fmt.Scan(&value)
+	fmt.Scanln(&value)
 	return value
 }
