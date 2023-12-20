@@ -1,57 +1,36 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"time"
+	"github.com/structs/user"
 )
 
-type User struct {
-	firstName, lastName, birthDate string
-	age                            int
-	createdAt                      time.Time
-}
-
-func NewUser(firstName, lastName, birthDate string) (*User, error) {
-
-	if firstName == "" || lastName == "" || birthDate == "" {
-		return nil, errors.New("validation error")
-	}
-
-	return &User{
-		firstName: firstName,
-		lastName:  lastName,
-		birthDate: birthDate,
-		age:       0,
-		createdAt: time.Now(),
-	}, nil
-}
-
-func (u *User) outPutUserDetails() {
-	fmt.Println(u.firstName, u.lastName, u.birthDate)
-}
-
-func (u *User) clearUserName() {
-	u.firstName = "xxx"
-	u.lastName = "xxx"
-}
-
 func main() {
+	var err error
+
 	firstName := getUserData("Please enter your first name: ")
 	lastName := getUserData("Please enter your last name: ")
 	birthDate := getUserData("Please enter your birthdate (MM/DD/YYYY): ")
 
-	appUser, err := NewUser(firstName, lastName, birthDate)
+	//var appUser *user.User
+
+	appUser, err := user.New(firstName, lastName, birthDate)
+
+	//appUser = &user.User{
+	//	FirstName: firstName,
+	//	LastName:  lastName,
+	//	BirthDate: birthDate,
+	//}
 
 	if err != nil {
 		panic("Error -- " + err.Error())
 	}
 
-	fmt.Printf("%+v\n", appUser)
+	appUser.OutPutUserDetails()
 
-	appUser.clearUserName()
+	appUser.ClearUserName()
 
-	fmt.Printf("%+v", appUser)
+	appUser.OutPutUserDetails()
 }
 
 func getUserData(promptText string) string {
