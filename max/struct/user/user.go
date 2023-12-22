@@ -7,9 +7,18 @@ import (
 )
 
 type User struct {
-	firstName, lastName, birthDate string
-	age                            int
-	createdAt                      time.Time
+	firstName string
+	lastName  string
+	birthDate string
+	age       int
+	createdAt time.Time
+	NickName  string
+}
+
+type Admin struct {
+	Email    string
+	Password string
+	User
 }
 
 func New(firstName, lastName, birthDate string) (*User, error) {
@@ -25,6 +34,20 @@ func New(firstName, lastName, birthDate string) (*User, error) {
 		age:       0,
 		createdAt: time.Now(),
 	}, nil
+}
+
+func NewAdmin(email, password string) Admin {
+	return Admin{
+		Email:    email,
+		Password: password,
+		User: User{
+			firstName: "ADMIN",
+			lastName:  "ADMIN",
+			birthDate: "----",
+			age:       28,
+			createdAt: time.Now(),
+		},
+	}
 }
 
 func (u *User) OutPutUserDetails() {

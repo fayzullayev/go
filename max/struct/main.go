@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/structs/user"
 )
 
@@ -31,11 +30,5 @@ func main() {
 	appUser.ClearUserName()
 
 	appUser.OutPutUserDetails()
-}
 
-func getUserData(promptText string) string {
-	fmt.Print(promptText)
-	var value string
-	fmt.Scanln(&value)
-	return value
 }
