@@ -8,7 +8,32 @@ import (
 	"strings"
 )
 
+type User struct {
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+	Job  string `json:"job"`
+}
+
 func main() {
+	//var user []User
+	//
+	//text := `[
+	//			{"name":"Mirodil","age":28,"job":"Developer"},
+	//			{"name":"Iroda","age":20,"job":"Teacher"},
+	//			{"name":"Zaynab","age":2,"job":"Child"},
+	//			{"name":"Muhammad","age":0,"job":"Baby"}
+	//		]`
+
+	//data, err := json.Marshal(user)
+
+	//err := json.Unmarshal([]byte(text), &user)
+
+	//if err != nil {
+	//	panic(err)
+	//}
+
+	//fmt.Println("User Name", user[2].Name)
+	//fmt.Println(string(data))
 	title, content := getNoteData()
 
 	userNote, err := note.New(title, content)
@@ -22,7 +47,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 }
 
 func getNoteData() (string, string) {
@@ -33,13 +57,7 @@ func getNoteData() (string, string) {
 }
 
 func getUserInput(prompt string) string {
-	//var value string
-
 	fmt.Print(prompt, " ")
-	//_, err := fmt.Scanln(&value)
-	//if err != nil {
-	//	panic(err)
-	//}
 
 	reader := bufio.NewReader(os.Stdin)
 
