@@ -15,6 +15,22 @@ type User struct {
 	Job  string `json:"job"`
 }
 
+type Saver interface {
+	Save() error
+}
+
+func saveData(data Saver) error {
+	err := data.Save()
+	if err != nil {
+		fmt.Println("Saving the note failed!")
+		return err
+	}
+
+	fmt.Println("The note was saved successfully")
+
+	return nil
+}
+
 func main() {
 	//var user []User
 	//
@@ -52,18 +68,16 @@ func main() {
 	}
 
 	myTodo.Display()
+	err = saveData(myTodo)
+	if err != nil {
+		return
+	}
+
 	userNote.Display()
-
-	err = myTodo.Save()
+	err = saveData(userNote)
 	if err != nil {
-		panic(err)
+		return
 	}
-
-	err = userNote.Save()
-	if err != nil {
-		panic(err)
-	}
-
 }
 
 //func getTodoData() string {
