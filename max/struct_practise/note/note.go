@@ -36,6 +36,8 @@ func (n *Note) Save() error {
 	fileName = strings.ToLower(fileName)
 	fileName = fileName + ".json"
 
+	fmt.Println("fileName", fileName)
+
 	//fmt.Printf("%+v", n)
 
 	jsonData, err := json.Marshal(n)
