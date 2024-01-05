@@ -13,7 +13,7 @@ type Todo struct {
 
 func New(content string) (*Todo, error) {
 	if content == "" {
-		return &Todo{}, errors.New("invalid input")
+		return nil, errors.New("invalid input")
 	}
 
 	return &Todo{

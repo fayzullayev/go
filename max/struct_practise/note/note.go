@@ -17,7 +17,7 @@ type Note struct {
 
 func New(title, content string) (*Note, error) {
 	if title == "" || content == "" {
-		return &Note{}, errors.New("invalid input")
+		return nil, errors.New("invalid input")
 	}
 
 	return &Note{

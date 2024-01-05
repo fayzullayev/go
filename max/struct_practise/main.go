@@ -4,8 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"practise-structs/note"
-	"practise-structs/todo"
 	"strings"
 )
 
@@ -52,32 +50,42 @@ func main() {
 	//fmt.Println("User Name", user[2].Name)
 	//fmt.Println(string(data))
 
-	title, content := getNoteData()
-	todoText := getUserInput("Todo text: ")
+	//var text string
 
-	myTodo, err := todo.New(todoText)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	//text = []byte{11100110 10001111 10010011}
+	//
+	//fmt.Println("text string", text)
+	//fmt.Println("text bytes:", []byte(text))
+	//fmt.Printf("text bytes: %08b", []byte(text))
+	fmt.Println([]byte("😍"))
+	//fmt.Printf("%08b", []byte("Mirodil😍😍😍"))
 
-	userNote, err := note.New(title, content)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	myTodo.Display()
-	err = saveData(myTodo)
-	if err != nil {
-		return
-	}
-
-	userNote.Display()
-	err = saveData(userNote)
-	if err != nil {
-		return
-	}
+	//title, content := getNoteData()
+	//todoText := getUserInput("Todo text: ")
+	//
+	//myTodo, err := todo.New(todoText)
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//
+	//userNote, err := note.New(title, content)
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//
+	//myTodo.Display()
+	//err = saveData(myTodo)
+	//if err != nil {
+	//	return
+	//}
+	//
+	//userNote.Display()
+	//err = saveData(userNote)
+	//if err != nil {
+	//	return
+	//}
 }
 
 //func getTodoData() string {
