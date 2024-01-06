@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"practise-structs/note"
+	"practise-structs/todo"
 	"strings"
 )
 
@@ -17,6 +19,20 @@ type Saver interface {
 	Save() error
 }
 
+type Displayer interface {
+	Display()
+}
+
+type Outputable interface {
+	Saver
+	Display()
+}
+
+//type Outputable interface {
+//	Save() error
+//	Display()
+//}
+
 func saveData(data Saver) error {
 	err := data.Save()
 	if err != nil {
@@ -29,7 +45,19 @@ func saveData(data Saver) error {
 	return nil
 }
 
+func outputData(data Outputable) error {
+	data.Display()
+	return saveData(data)
+}
+
+func printSomething(data any) {
+	fmt.Println(data)
+}
+
 func main() {
+
+	//fmt.Println([]any{1, true, "Hello"})
+	printSomething([]any{1, true, "Hello"})
 	//var user []User
 	//
 	//text := `[
@@ -57,24 +85,34 @@ func main() {
 	//fmt.Println("text string", text)
 	//fmt.Println("text bytes:", []byte(text))
 	//fmt.Printf("text bytes: %08b", []byte(text))
-	fmt.Println([]byte("😍"))
+	//fmt.Println(string([]byte{240, 159, 140, 158}))
 	//fmt.Printf("%08b", []byte("Mirodil😍😍😍"))
 
-	//title, content := getNoteData()
-	//todoText := getUserInput("Todo text: ")
-	//
-	//myTodo, err := todo.New(todoText)
-	//if err != nil {
-	//	fmt.Println(err)
-	//	return
-	//}
-	//
-	//userNote, err := note.New(title, content)
-	//if err != nil {
-	//	fmt.Println(err)
-	//	return
-	//}
-	//
+	title, content := getNoteData()
+	todoText := getUserInput("Todo text: ")
+
+	myTodo, err := todo.New(todoText)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	userNote, err := note.New(title, content)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	err = outputData(myTodo)
+	if err != nil {
+		return
+	}
+
+	err = outputData(userNote)
+	if err != nil {
+		return
+	}
+
 	//myTodo.Display()
 	//err = saveData(myTodo)
 	//if err != nil {
