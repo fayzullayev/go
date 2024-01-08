@@ -51,13 +51,36 @@ func outputData(data Outputable) error {
 }
 
 func printSomething(data any) {
-	fmt.Println(data)
+
+	value, isValid := data.(int)
+
+	fmt.Println(value, isValid)
+
+	value2, isValid2 := data.(string)
+
+	fmt.Println(value2, isValid2)
+
+	value3, isValid3 := data.(float64)
+
+	fmt.Println(value3, isValid3)
+
+	//switch data.(type) {
+	//case int:
+	//	fmt.Println(45 * data.(int))
+	//
+	//case float64:
+	//	fmt.Println("It is float")
+	//default:
+	//	fmt.Println("Unknown type")
+	//}
+
+	//fmt.Println(data)
 }
 
 func main() {
 
 	//fmt.Println([]any{1, true, "Hello"})
-	printSomething([]any{1, true, "Hello"})
+	printSomething("89.5")
 	//var user []User
 	//
 	//text := `[
