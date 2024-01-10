@@ -2,34 +2,28 @@ package main
 
 import "fmt"
 
-// Time to practice what you learned!
-
-// 1) Create a new array (!) that contains three hobbies you have
-// 		Output (print) that array in the command line.
-// 2) Also output more data about that array:
-//		- The first element (standalone)
-//		- The second and third element combined as a new list
-// 3) Create a slice based on the first element that contains
-//		the first and second elements.
-//		Create that slice in two different ways (i.e. create two slices in the end)
-// 4) Re-slice the slice from (3) and change it to contain the second
-//		and last element of the original array.
-// 5) Create a "dynamic array" that contains your course goals (at least 2 goals)
-// 6) Set the second goal to a different one AND then add a third goal to that existing dynamic array
-// 7) Bonus: Create a "Product" struct with title, id, price and create a
-//		dynamic list of products (at least 2 products).
-//		Then add a third product to the existing list of products.
-
-type Product struct {
-	id    string
-	title string
-	price float64
-}
-
 func main() {
-	nums1 := []int{1, 2, 3}
-	nums2 := []int{4, 5, 6}
 
-	nums3 := append(nums1, nums2...)
-	fmt.Println("nums3", nums3)
+	//websites := make(map[string]string)
+	var websites map[string]string = map[string]string{
+		"google": "https://wwww.google2.com",
+	}
+
+	fmt.Println(websites)
+
+	websites["google"] = "https://wwww.google.com"
+	websites["amazon"] = "https://wwww.aws.com"
+	websites["facebook"] = "https://wwww.facebook.com"
+
+	fmt.Printf("%+v\n", websites)
+
+	value, ok := websites["amazon2"]
+	fmt.Println(value, ok)
+
+	delete(websites, "facebook")
+
+	for k, v := range websites {
+		fmt.Println(k, v)
+	}
+
 }
