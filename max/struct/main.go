@@ -1,19 +1,32 @@
 package main
 
 import (
-	"github.com/structs/user"
+	"bufio"
+	"fmt"
+	"os"
 )
 
 func main() {
-	var err error
+	//var err error
 
-	firstName := getUserData("Please enter your first name: ")
-	lastName := getUserData("Please enter your last name: ")
-	birthDate := getUserData("Please enter your birthdate (MM/DD/YYYY): ")
+	reader := bufio.NewReader(os.Stdin)
+	readString, err := reader.ReadString('\n')
+
+	if err != nil {
+		return
+	}
+
+	fmt.Println("readString", readString)
+
+	//firstName := getUserData("Please enter your first name: ")
+	//lastName := getUserData("Please enter your last name: ")
+	//birthDate := getUserData("Please enter your birthdate (MM/DD/YYYY): ")
 
 	//var appUser *user.User
 
-	appUser, err := user.New(firstName, lastName, birthDate)
+	//appUser := user.NewAdmin(firstName, lastName)
+
+	//fmt.Printf("%+v", appUser.)
 
 	//appUser = &user.User{
 	//	FirstName: firstName,
@@ -21,14 +34,13 @@ func main() {
 	//	BirthDate: birthDate,
 	//}
 
-	if err != nil {
-		panic("Error -- " + err.Error())
-	}
-
-	appUser.OutPutUserDetails()
-
-	appUser.ClearUserName()
-
-	appUser.OutPutUserDetails()
-
+	//if err != nil {
+	//	panic("Error -- " + err.Error())
+	//}
+	//
+	//appUser.OutPutUserDetails()
+	//
+	//appUser.ClearUserName()
+	//
+	//appUser.OutPutUserDetails()
 }
