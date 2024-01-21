@@ -7,7 +7,7 @@ func main() {
 
 	var taxRates = []float64{0, 0.7, 0.1, 0.15}
 
-	var result = make(map[float64][]float64)
+	var result = make(map[float64][]float64, 3)
 
 	for _, taxRate := range taxRates {
 
@@ -16,8 +16,8 @@ func main() {
 		for priceIndex, price := range prices {
 			taxIncludedPrices[priceIndex] = price * (1 + taxRate)
 		}
-
 		result[taxRate] = taxIncludedPrices
 	}
-	fmt.Printf("%+v", result)
+	fmt.Printf("result %+v %d\n", result, len(result))
+
 }
