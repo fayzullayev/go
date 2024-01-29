@@ -21,8 +21,8 @@ func (job *TaxIncludedPriceJob) Process() {
 	result := make(map[string]string)
 
 	for _, price := range job.InputPrices {
-		tax := price * (1 + job.TaxRate)
-		result[fmt.Sprintf("%.2f", price)] = fmt.Sprintf("%.2f", tax)
+		taxIncludedPrice := price * (1 + job.TaxRate)
+		result[fmt.Sprintf("%.2f", price)] = fmt.Sprintf("%.2f", taxIncludedPrice)
 	}
 
 	fmt.Printf("%+v", result)
@@ -53,8 +53,9 @@ func (job *TaxIncludedPriceJob) LoadData() {
 	for lineIndex, line := range lines {
 
 		floatPrice, err := strconv.ParseFloat(line, 64)
+
 		if err != nil {
-			fmt.Println("Converting price to float failed")
+			fmt.Println("Error while converting price to float failed")
 			fmt.Println(err)
 			file.Close()
 			return
