@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"rest/db"
 	"rest/models/event"
+	"time"
 )
 
 type Person struct {
@@ -14,6 +15,7 @@ type Person struct {
 }
 
 func main() {
+	db.InitDB()
 	server := gin.Default()
 
 	err := server.SetTrustedProxies(nil)
@@ -31,7 +33,14 @@ func main() {
 }
 
 func getEvents(c *gin.Context) {
-	events := event.GetAllEvents()
+	events, err := event.GetAllEvents()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not fetch events: " + err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, events)
 }
 
@@ -40,25 +49,24 @@ func createEvents(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&myEvent); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
+			"message": "Something went wrong:" + err.Error(),
 		})
 		return
 	}
 
 	myEvent.ID = 1
 	myEvent.UserID = 1
-
-	fmt.Printf("%+v\n", myEvent)
+	myEvent.DateTime = time.Now()
 
 	err := myEvent.Save()
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Something went wrong",
+			"message": "Something went wrong: " + err.Error(),
 		})
 		return
 	}
 
 	//events := event.GetAllEvents()
-	c.JSON(http.StatusOK, myEvent)
+	c.JSON(http.StatusCreated, myEvent)
 }
