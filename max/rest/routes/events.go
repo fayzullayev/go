@@ -1,0 +1,147 @@
+package routes
+
+import (
+	"database/sql"
+	"errors"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"net/http"
+	"rest/models/event"
+	"strconv"
+	"time"
+)
+
+func getEvents(c *gin.Context) {
+	events, err := event.GetAllEvents()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not fetch events: " + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, events)
+}
+
+func getEvent(c *gin.Context) {
+	eventId, err := strconv.Atoi(c.Param("eventId"))
+
+	//fmt.Printf("%+v", c.Params[0])
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "user not found: " + err.Error(),
+		})
+		return
+	}
+
+	var e event.Event
+	e.ID = int64(eventId)
+
+	err = e.GetById()
+	if err != nil {
+
+		if errors.Is(sql.ErrNoRows, err) {
+			c.JSON(http.StatusNotFound, gin.H{
+				"message": "user not found.....: ",
+				"error":   fmt.Sprintf("User with id:%v does not exist", eventId),
+			})
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Something went wrong...",
+			"error":   err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successful",
+		"data":    e,
+	})
+}
+func createEvents(c *gin.Context) {
+	var myEvent event.Event
+
+	if err := c.ShouldBindJSON(&myEvent); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Something went wrong:" + err.Error(),
+		})
+		return
+	}
+
+	myEvent.ID = 1
+	myEvent.UserID = 1
+	myEvent.DateTime = time.Now()
+
+	err := myEvent.Save()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Something went wrong: " + err.Error(),
+		})
+		return
+	}
+
+	//events := event.GetAllEvents()
+	c.JSON(http.StatusCreated, myEvent)
+}
+
+func updateEvent(c *gin.Context) {
+	start := time.Now()
+	eventId, err := strconv.Atoi(c.Param("eventId"))
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "event not found-1",
+		})
+
+		return
+	}
+
+	myEvent := event.Event{ID: int64(eventId)}
+
+	err = myEvent.GetById()
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "event not found-2",
+		})
+
+		return
+	}
+
+	err = c.ShouldBindJSON(&myEvent)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "event not found-3" + err.Error(),
+		})
+		return
+	}
+
+	err = myEvent.Update()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "event not found-4" + err.Error(),
+		})
+		return
+	}
+
+	err = myEvent.GetById()
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "event not found-2",
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Ok",
+		"data":    myEvent,
+	})
+
+	fmt.Println("time", time.Since(start))
+}
