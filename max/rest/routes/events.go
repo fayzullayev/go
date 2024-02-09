@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"rest/models/event"
+	"rest/models"
 	"strconv"
 	"time"
 )
 
 func getEvents(c *gin.Context) {
-	events, err := event.GetAllEvents()
+	events, err := models.GetAllEvents()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not fetch events: " + err.Error(),
@@ -22,7 +22,6 @@ func getEvents(c *gin.Context) {
 
 	c.JSON(http.StatusOK, events)
 }
-
 func getEvent(c *gin.Context) {
 	eventId, err := strconv.Atoi(c.Param("eventId"))
 
@@ -35,7 +34,7 @@ func getEvent(c *gin.Context) {
 		return
 	}
 
-	var e event.Event
+	var e models.Event
 	e.ID = int64(eventId)
 
 	err = e.GetById()
@@ -63,7 +62,7 @@ func getEvent(c *gin.Context) {
 	})
 }
 func createEvents(c *gin.Context) {
-	var myEvent event.Event
+	var myEvent models.Event
 
 	if err := c.ShouldBindJSON(&myEvent); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -88,7 +87,6 @@ func createEvents(c *gin.Context) {
 	//events := event.GetAllEvents()
 	c.JSON(http.StatusCreated, myEvent)
 }
-
 func updateEvent(c *gin.Context) {
 	start := time.Now()
 	eventId, err := strconv.Atoi(c.Param("eventId"))
@@ -101,7 +99,7 @@ func updateEvent(c *gin.Context) {
 		return
 	}
 
-	myEvent := event.Event{ID: int64(eventId)}
+	myEvent := models.Event{ID: int64(eventId)}
 
 	err = myEvent.GetById()
 	if err != nil {
@@ -144,4 +142,29 @@ func updateEvent(c *gin.Context) {
 	})
 
 	fmt.Println("time", time.Since(start))
+}
+func deleteEvent(c *gin.Context) {
+	eventId := c.Param("eventId")
+
+	id, err := strconv.Atoi(eventId)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "user not found",
+		})
+		return
+	}
+
+	myEvent := models.Event{ID: int64(id)}
+
+	err = myEvent.Delete()
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "user not found",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successful",
+	})
 }
