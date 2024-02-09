@@ -11,7 +11,7 @@ func signUp(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
+			"message1": err.Error(),
 		})
 		return
 	}
