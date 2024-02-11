@@ -62,6 +62,8 @@ func getEvent(c *gin.Context) {
 	})
 }
 func createEvents(c *gin.Context) {
+	userId := c.GetInt64("userId")
+
 	var myEvent models.Event
 
 	if err := c.ShouldBindJSON(&myEvent); err != nil {
@@ -71,8 +73,7 @@ func createEvents(c *gin.Context) {
 		return
 	}
 
-	myEvent.ID = 1
-	myEvent.UserID = 1
+	myEvent.UserID = userId
 	myEvent.DateTime = time.Now()
 
 	err := myEvent.Save()
@@ -88,7 +89,6 @@ func createEvents(c *gin.Context) {
 	c.JSON(http.StatusCreated, myEvent)
 }
 func updateEvent(c *gin.Context) {
-	start := time.Now()
 	eventId, err := strconv.Atoi(c.Param("eventId"))
 
 	if err != nil {
@@ -105,6 +105,16 @@ func updateEvent(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "event not found-2",
+		})
+
+		return
+	}
+
+	userId := c.GetInt64("userId")
+
+	if userId != myEvent.UserID {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "not allowed",
 		})
 
 		return
@@ -140,8 +150,6 @@ func updateEvent(c *gin.Context) {
 		"message": "Ok",
 		"data":    myEvent,
 	})
-
-	fmt.Println("time", time.Since(start))
 }
 func deleteEvent(c *gin.Context) {
 	eventId := c.Param("eventId")
@@ -149,12 +157,30 @@ func deleteEvent(c *gin.Context) {
 	id, err := strconv.Atoi(eventId)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
-			"message": "user not found",
+			"message": "event not found",
 		})
 		return
 	}
 
 	myEvent := models.Event{ID: int64(id)}
+
+	err = myEvent.GetById()
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "event not found",
+		})
+		return
+	}
+
+	userId := c.GetInt64("userId")
+
+	if userId != myEvent.UserID {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "not allowed",
+		})
+
+		return
+	}
 
 	err = myEvent.Delete()
 	if err != nil {

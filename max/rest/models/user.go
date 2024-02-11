@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"rest/db"
+	"rest/utils"
 )
 
 type User struct {
@@ -26,7 +27,12 @@ func (u *User) Save() error {
 		return err
 	}
 
-	result, err := stmt.Exec(u.Email, u.Password)
+	hashedPassword, err := utils.HashPassword(u.Password)
+	if err != nil {
+		return err
+	}
+
+	result, err := stmt.Exec(u.Email, hashedPassword)
 	if err != nil {
 		return err
 	}
@@ -36,5 +42,32 @@ func (u *User) Save() error {
 	u.ID = userId
 
 	return err
+
+}
+
+func (u *User) FindByEmail() error {
+	query := `SELECT * FROM users WHERE email = ?`
+
+	stmt, err := db.DB.Prepare(query)
+
+	defer func(stmt *sql.Stmt) {
+		err = stmt.Close()
+		if err != nil {
+
+		}
+	}(stmt)
+
+	if err != nil {
+		return err
+	}
+
+	row := stmt.QueryRow(u.Email)
+
+	err = row.Scan(&u.ID, &u.Email, &u.Password)
+	if err != nil {
+		return err
+	}
+
+	return nil
 
 }
