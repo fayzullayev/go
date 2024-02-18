@@ -7,6 +7,12 @@ import (
 
 func RegisterRoutes(server *gin.Engine) {
 
+	server.GET("/", func(context *gin.Context) {
+		context.JSON(200, gin.H{
+			"message": "works",
+		})
+	})
+
 	events := server.Group("/events")
 
 	{

@@ -1,12 +1,18 @@
 package main
 
 func main() {
-	cards := newDeck()
-	//cards.print()
 
-	hand, remainingCards := deal(cards, 5)
+	cards := ReadFromFile("my_cards.txt")
 
-	hand.print()
+	//fmt.Println(cards.toString())
+	cards.Print()
+	cards.Shuffle()
+	//fmt.Println()
+	cards.Print()
 
-	remainingCards.print()
+	//err := cards.SaveToFile("my_cards.txt")
+	//if err != nil {
+	//	log.Fatal("Something went wrong", err.Error())
+	//}
+
 }
