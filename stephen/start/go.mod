@@ -1,3 +1,3 @@
-module star
+module stars
 
 go 1.22.0
