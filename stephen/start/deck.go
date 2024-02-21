@@ -12,7 +12,6 @@ import (
 type Deck []string
 
 func newDeck() Deck {
-
 	cards := Deck{}
 	cardSuits := []string{"Spades", "Hearts", "Diamonds", "Clubs"}
 	cardValues := []string{"Ace", "Two", "Three", "Four"}
@@ -58,7 +57,7 @@ func ReadFromFile(filename string) Deck {
 
 	s := strings.Split(string(bytes), ",")
 
-	return Deck(s)
+	return s
 }
 
 func (d *Deck) ToString() string {
