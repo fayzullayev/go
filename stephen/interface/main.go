@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Greeter interface {
 	Greet() string
@@ -23,6 +25,7 @@ func (eb SpanishBot) Greet() string {
 }
 
 func main() {
+
 	eb := EnglishBot{
 		"Hello",
 	}
