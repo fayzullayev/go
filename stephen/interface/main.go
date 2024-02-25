@@ -24,6 +24,12 @@ func (eb SpanishBot) Greet() string {
 	return eb.Text
 }
 
+type Name string
+
+func (n Name) Greet() string {
+	return string(n)
+}
+
 func main() {
 
 	eb := EnglishBot{
@@ -34,8 +40,11 @@ func main() {
 		Text: "Hola!",
 	}
 
+	name := Name("Mirodil")
+
 	Greeting(eb)
 	Greeting(sb)
+	Greeting(name)
 }
 
 func Greeting(gr Greeter) {
