@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 )
 
 type Greeter interface {
@@ -32,19 +34,27 @@ func (n Name) Greet() string {
 
 func main() {
 
-	eb := EnglishBot{
-		"Hello",
+	//eb := EnglishBot{
+	//	"Hello",
+	//}
+	//
+	//sb := SpanishBot{
+	//	Text: "Hola!",
+	//}
+	//
+	//name := Name("Mirodil")
+	//
+	//Greeting(eb)
+	//Greeting(sb)
+	//Greeting(name)
+
+	res, err := http.Get("https://www.google.com")
+
+	if err != nil {
+		log.Fatal(err)
 	}
+	fmt.Printf("%+v", res.Body)
 
-	sb := SpanishBot{
-		Text: "Hola!",
-	}
-
-	name := Name("Mirodil")
-
-	Greeting(eb)
-	Greeting(sb)
-	Greeting(name)
 }
 
 func Greeting(gr Greeter) {
