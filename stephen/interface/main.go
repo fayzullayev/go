@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
 type Greeter interface {
@@ -53,8 +55,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%+v", res.Body)
 
+	io.Copy(os.Stdout, res.Body)
 }
 
 func Greeting(gr Greeter) {
