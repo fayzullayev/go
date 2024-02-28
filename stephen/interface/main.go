@@ -5,7 +5,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
 )
 
 type Greeter interface {
@@ -56,9 +55,19 @@ func main() {
 		log.Fatal(err)
 	}
 
-	io.Copy(os.Stdout, res.Body)
+	lw := logWriter{}
+
+	io.Copy(lw, res.Body)
 }
 
 func Greeting(gr Greeter) {
 	fmt.Println(gr.Greet())
+}
+
+type logWriter struct {
+}
+
+func (w logWriter) Write(bs []byte) (int, error) {
+	fmt.Println("Worked", string(bs))
+	return len(bs), nil
 }
