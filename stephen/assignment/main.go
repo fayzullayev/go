@@ -1,40 +1,26 @@
 package main
 
-import "fmt"
-
-type shape interface {
-	getArea() float64
-}
-
-type triangle struct {
-	base   float64
-	height float64
-}
-
-func (t triangle) getArea() float64 {
-	return (t.height * t.base) / 2
-}
-
-type square struct {
-	sideLength float64
-}
-
-func (s square) getArea() float64 {
-	return s.sideLength * s.sideLength
-}
+import (
+	"io"
+	"log"
+	"os"
+)
 
 func main() {
-	t := triangle{
-		base:   10,
-		height: 10,
+	filename := os.Args[1]
+
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Fatal("Could not find the file: ", filename)
 	}
 
-	s := square{sideLength: 10}
+	defer func(file *os.File) {
+		err = file.Close()
+		if err != nil {
+			log.Fatal("Could not close the file: ", err.Error())
+		}
+	}(file)
 
-	printArea(t)
-	printArea(s)
-}
+	io.Copy(os.Stdout, file)
 
-func printArea(sh shape) {
-	fmt.Println(sh.getArea())
 }
