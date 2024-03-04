@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	util "starter/utils"
 )
 
 func main() {
-	fmt.Println("Hello!!!")
+	util.Hello()
 }
