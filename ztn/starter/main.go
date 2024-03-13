@@ -2,23 +2,46 @@ package main
 
 import "fmt"
 
-func main() {
-	for i := range 100 {
-		isFizzBuzz(i)
-	}
+type Product struct {
+	price int
+	name  string
 }
 
-func isFizzBuzz(number int) {
-	isDivisableBy3 := number%3 == 0
-	isDivisableBy5 := number%5 == 0
+func printStats(products [4]Product) {
+	var cost, totalItem int
 
-	if isDivisableBy3 && isDivisableBy5 {
-		fmt.Println(number, "FizzBuzz")
-	} else if isDivisableBy3 {
-		fmt.Println(number, "Fizz")
-	} else if isDivisableBy5 {
-		fmt.Println(number, "Buzz")
-	} else {
-		fmt.Println(number)
+	for i := 0; i < len(products); i++ {
+		product := products[i]
+		cost += product.price
+
+		if product.name != "" {
+			totalItem += 1
+		}
 	}
+
+	fmt.Println("cost: ", cost)
+	fmt.Println("number of items: ", totalItem)
+	fmt.Println("last  of item: ", products[totalItem-1])
+
+}
+
+func main() {
+
+	shoppingList := [4]Product{
+		{1, "Banana"},
+		{4, "Apple"},
+		//{6, "Orange"},
+		{18, "Lemon"},
+	}
+
+	printStats(shoppingList)
+
+	shoppingList[3] = Product{
+		price: 50,
+		name:  "Notebook",
+	}
+	fmt.Println("----------------")
+
+	printStats(shoppingList)
+
 }
