@@ -2,63 +2,30 @@ package main
 
 import "fmt"
 
-const (
-	Online = iota
-	Offline
-	Maintenance
-	Retired
-)
+type Counter struct {
+	hint int
+}
 
-type serversType map[string]int
+func increment(counter *Counter) {
+	counter.hint += 1
 
-func printServersStatus(servers serversType) {
-	fmt.Printf("There are %d servers\n", len(servers))
-	fmt.Println(servers)
-	stats := make(map[int]int)
+	fmt.Printf("Counter %+v\n", counter)
+}
 
-	for _, status := range servers {
-
-		switch status {
-		case Online:
-			stats[Online] += 1
-		case Offline:
-			stats[Offline] += 1
-		case Maintenance:
-			stats[Maintenance] += 1
-		case Retired:
-			stats[Retired] += 1
-		default:
-			panic("Unknown server")
-		}
-
-	}
-	fmt.Println(stats[Online], "servers are online")
-	fmt.Println(stats[Offline], "servers are offline")
-	fmt.Println(stats[Maintenance], "servers are maintenance")
-	fmt.Println(stats[Retired], "servers are retired")
+func replace(old *string, new string, counter *Counter) {
+	*old = new
+	increment(counter)
 }
 
 func main() {
-	servers := []string{"darkstar", "aiur", "omricon", "w359", "baseline"}
+	counter := Counter{}
+	fmt.Printf("Counter %+v\n", counter)
+	hello := "Hello"
+	world := "World!"
 
-	serversStatus := make(serversType)
+	fmt.Println(hello, world)
 
-	for _, server := range servers {
-		serversStatus[server] = Online
-	}
-	fmt.Println("--------------------------------")
-	fmt.Println(servers)
-	fmt.Println(serversStatus)
-	fmt.Println("--------------------------------")
-	printServersStatus(serversStatus)
-	fmt.Println("--------------------------------")
-	serversStatus["darkstar"] = Retired
-	serversStatus["aiur"] = Offline
-	printServersStatus(serversStatus)
+	replace(&hello, "Hi", &counter)
 
-	for k, _ := range serversStatus {
-		serversStatus[k] = Maintenance
-	}
-	printServersStatus(serversStatus)
-
+	fmt.Println(hello, world)
 }
