@@ -25,7 +25,7 @@ type User struct {
 	PhoneNumber string `json:"phoneNumber"`
 }
 
-func (u User) Create(db *sql.DB) (int64, error) {
+func (u *User) Create(db *sql.DB) (int64, error) {
 	result, err := db.Exec("INSERT INTO users (firstName, lastName, age, job, phoneNumber) VALUES (?, ?, ?, ?, ?)", u.FirstName, u.LastName, u.Age, u.Job, u.PhoneNumber)
 
 	if err != nil {
@@ -49,7 +49,7 @@ func (u User) Create(db *sql.DB) (int64, error) {
 	return id, nil
 }
 
-func (u User) GetUserById(db *sql.DB, userId int64) (User, error) {
+func (u *User) GetUserById(db *sql.DB, userId int64) (User, error) {
 	//var user User
 	//err := db.QueryRow("SELECT * FROM users WHERE id = ?", userId).Scan(&user.Id, &user.FirstName, &user.LastName, &user.Age, &user.Job, &user.PhoneNumber)
 	//
@@ -80,6 +80,7 @@ type Album struct {
 func main() {
 
 	db := initDB()
+
 	defer func(db *sql.DB) {
 		err := db.Close()
 		if err != nil {
