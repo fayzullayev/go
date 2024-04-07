@@ -51,7 +51,6 @@ func (s *APIServer) Run() {
 func Logger(next http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
-
 		next.ServeHTTP(w, r)
 	}
 }
