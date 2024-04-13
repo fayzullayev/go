@@ -13,6 +13,7 @@ import (
 
 func getEvents(c *gin.Context) {
 	events, err := models.GetAllEvents()
+
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not fetch events: " + err.Error(),

@@ -12,6 +12,7 @@ func main() {
 	server := gin.Default()
 
 	err := server.SetTrustedProxies(nil)
+
 	if err != nil {
 		log.Fatal("server.SetTrustedProxies", err)
 	}

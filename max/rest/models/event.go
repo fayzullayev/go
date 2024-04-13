@@ -119,6 +119,7 @@ func GetAllEvents() ([]Event, error) {
 	var events []Event
 
 	rows, err := db.DB.Query(query)
+
 	if err != nil {
 		return nil, err
 	}
