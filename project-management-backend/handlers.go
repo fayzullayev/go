@@ -3,9 +3,18 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 )
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}
+
 func getProjects(w http.ResponseWriter, r *http.Request) {
+
+	time.Sleep(time.Second * 3)
+
+	enableCors(&w)
 
 	projects, err := getAllProjects()
 
