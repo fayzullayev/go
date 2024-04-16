@@ -10,7 +10,7 @@ import (
 var DB *sql.DB
 
 func initDB() {
-	connStr := "postgres://postgres:12345@localhost/projects_management?sslmode=disable"
+	connStr := "postgres://postgres:12345678@localhost/projects_management?sslmode=disable"
 
 	var err error
 
