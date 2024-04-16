@@ -12,8 +12,12 @@ func RegisterRoutes(router *gin.Engine) {
 
 	v1 := router.Group("/api/v1")
 	projects := v1.Group("/projects")
+
 	{
-		projects.GET("/")
+		projects.GET("", GetProjectsHandler)
+		projects.GET("/:id", GetProjectHandler)
+		projects.DELETE("/:id", DeleteProjectHandler)
+		projects.POST("", CreateProjectHandler)
 	}
 
 }
