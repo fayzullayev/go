@@ -20,4 +20,11 @@ func RegisterRoutes(router *gin.Engine) {
 		projects.POST("", CreateProjectHandler)
 	}
 
+	tasks := v1.Group("/tasks")
+
+	{
+		tasks.GET("/:id", GetTasksHandler)
+		tasks.POST("", CreateTasksHandler)
+	}
+
 }
