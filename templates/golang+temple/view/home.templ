@@ -1,0 +1,10 @@
+package view
+
+import "strings"
+
+templ Hello(name string) {
+	<div style="font-size: 32px;color:blue">
+	    <div>Hello, { strings.ToUpper(name) }</div>
+	    <div>Hello, { strings.ToUpper(name) }</div>
+	</div>
+}
