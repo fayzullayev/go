@@ -1,14 +1,16 @@
 package main
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"log"
+	"project-managememnt/db"
 	"project-managememnt/routes"
 )
 
 func main() {
 
-	initDB()
+	db.InitDB()
 
 	router := gin.Default()
 
@@ -16,6 +18,8 @@ func main() {
 	if err != nil {
 		log.Fatal("server.SetTrustedProxies", err)
 	}
+
+	router.Use(cors.Default())
 
 	routes.RegisterRoutes(router)
 
