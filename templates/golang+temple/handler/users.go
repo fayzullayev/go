@@ -2,9 +2,9 @@ package handler
 
 import (
 	"database/sql"
-	"github.com/a-h/templ"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"tempaltes-tutorial/model"
 	"tempaltes-tutorial/view"
 )
 
@@ -18,14 +18,13 @@ func NewUsersHandler(db *sql.DB) *UsersHandler {
 	}
 }
 
-func render(c *gin.Context, status int, template templ.Component) error {
-
-	c.Status(status)
-	return template.Render(c.Request.Context(), c.Writer)
-}
-
 func (u *UsersHandler) Home(c *gin.Context) {
-	err := render(c, 200, view.Hello("Mirodil"))
+
+	c.Status(200)
+
+	err := view.Hello("John doe", model.User{
+		Name: "John doe",
+	}).Render(c.Request.Context(), c.Writer)
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{

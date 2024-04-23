@@ -1,10 +1,22 @@
 package view
 
-import "strings"
+import (
+    "strings"
+    "tempaltes-tutorial/model"
+    "tempaltes-tutorial/view/components"
 
-templ Hello(name string) {
-	<div style="font-size: 32px;color:blue">
-	    <div>Hello, { strings.ToUpper(name) }</div>
-	    <div>Hello, { strings.ToUpper(name) }</div>
-	</div>
+   )
+
+templ Hello(name string, user model.User) {
+     @Base() {
+        <div style="font-size: 32px;color:blue">
+            <div>Hello, { strings.ToUpper(name) }</div>
+            <div>Hello, { name }</div>
+            <h2>Hello, { user.Name }</h2>
+            @components.Input(components.InputProps{"mmmm","hrthrthrthr"}) {}
+        </div>
+	}
 }
+
+
+

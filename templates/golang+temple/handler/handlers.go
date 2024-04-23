@@ -1,16 +1,18 @@
 package handler
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 type Handlers struct {
-	DB           *sql.DB
+	HomeHandler  *HomeHandler
 	UsersHandler *UsersHandler
 	TasksHandler *TasksHandler
 }
 
 func NewHandlers(db *sql.DB) *Handlers {
 	return &Handlers{
-		DB:           db,
+		HomeHandler:  NewHomeHandler(db),
 		UsersHandler: NewUsersHandler(db),
 		TasksHandler: NewTasksHandler(db),
 	}
