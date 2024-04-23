@@ -4,12 +4,18 @@ import (
     "strings"
     "tempaltes-tutorial/model"
     "tempaltes-tutorial/view/components"
-
    )
+
+
 
 templ Hello(name string, user model.User) {
      @Base() {
-        <div style="font-size: 32px;color:blue">
+        <div
+        style="
+            font-size: 32px;
+            color:blue;
+            border:1px solid green
+        ">
             <div>Hello, { strings.ToUpper(name) }</div>
             <div>Hello, { name }</div>
             <h2>Hello, { user.Name }</h2>

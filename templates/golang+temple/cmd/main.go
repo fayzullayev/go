@@ -1,18 +1,58 @@
 package main
 
-import (
-	"log"
-	"tempaltes-tutorial/app"
-)
+import "fmt"
+
+type OptsFunc func(opts *Opts)
+
+type Opts struct {
+	maxConnections int
+	id             string
+	tls            bool
+}
+
+type Server struct {
+	Opts Opts
+}
+
+func defaultOpts() Opts {
+	return Opts{
+		maxConnections: 10,
+		id:             "localhost",
+		tls:            false,
+	}
+}
+
+func newServer(opts ...OptsFunc) *Server {
+	o := defaultOpts()
+
+	for _, opt := range opts {
+		opt(&o)
+	}
+
+	return &Server{
+		Opts: o,
+	}
+}
+
+func setId(id string) OptsFunc {
+	return func(opts *Opts) {
+		opts.id = id
+	}
+}
 
 func main() {
-	myApp, err := app.NewApp()
-	if err != nil {
-		log.Fatal("Failed to create app: ", err)
-	}
+	s := newServer(func(opts *Opts) {
+		opts.maxConnections = 1000
+	}, setId("qwertyuio"))
 
-	err = myApp.Run()
-	if err != nil {
-		log.Fatal("Error starting server: ", err)
-	}
+	fmt.Printf("%+v\n", s)
+	//myApp, err := app.NewApp()
+	//if err != nil {
+	//	log.Fatal("Failed to create app: ", err)
+	//}
+	//
+	//err = myApp.Run()
+	//if err != nil {
+	//	log.Fatal("Error starting server: ", err)
+	//}
 }
