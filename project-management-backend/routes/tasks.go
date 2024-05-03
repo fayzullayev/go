@@ -40,8 +40,6 @@ func GetTasksHandler(c *gin.Context) {
 		return
 	}
 
-	//fmt.Println("projectId", projectId)
-
 	tasks, err := models.GetTasks(projectId)
 
 	if err != nil {
