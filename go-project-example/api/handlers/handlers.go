@@ -7,6 +7,6 @@ import (
 
 func Register(server *gin.Engine, app *app.App) {
 
-	server.GET("/users", getUsers(app))
+	//server.GET("/users", getUsers(app))
 
 }
