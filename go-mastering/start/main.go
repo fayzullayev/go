@@ -15,3 +15,5 @@ func main() {
 	// The capacity is doubled
 	fmt.Println("L:", len(aSlice), "C:", cap(aSlice))
 }
+
+//Selecting a part of a slice
