@@ -8,7 +8,7 @@ func main() {
 	fmt.Println(aSlice)
 
 	// The capacity is doubled
-	fmt.Println("L:", len(aSlice), "C:", cap(aSlice)) // Now add four elements
+	fmt.Println("L:", len(aSlice), "C.:", cap(aSlice)) // Now add four elements
 	aSlice = append(aSlice, []int{-1, -2, -3, -4, 6}...)
 
 	fmt.Println(aSlice)
