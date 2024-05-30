@@ -3,17 +3,22 @@ package main
 import "fmt"
 
 func main() {
+	slice := make([]byte, 3)
+	//__fmt.Println(slice)
 
-	aSlice := make([]int, 4, 4)
-	fmt.Println(aSlice)
+	arrayPtr := (*[3]byte)(slice)
+	fmt.Println("Print array pointer:", arrayPtr)
+	fmt.Printf("Data type: %T\n", arrayPtr)
+	fmt.Println("arrayPtr[0]:", arrayPtr[0])
 
-	// The capacity is doubled
-	fmt.Println("L:", len(aSlice), "C.:", cap(aSlice)) // Now add four elements
-	aSlice = append(aSlice, []int{-1, -2, -3, -4, 6}...)
+	fmt.Println("----------------")
 
-	fmt.Println(aSlice)
-	// The capacity is doubled
-	fmt.Println("L:", len(aSlice), "C:", cap(aSlice))
+	// Go 1.20 feature
+	slice2 := []int{-1, -2, -3, 8}
+	// Slice to array
+	array := [3]int(slice2)
+	fmt.Println("Print array contents:", array)
+	fmt.Printf("Data type: %T\n", array)
 }
 
-//Selecting a part of a slice
+//Data types and the unsafe package
