@@ -2,13 +2,12 @@ package main
 
 import "fmt"
 
-const num = 56
-
-var num2 = 2342
-var num3 int = 2342
-
 func main() {
-	var a float32 = 6667.99
+	a := true
+	b := false
 
-	fmt.Println(a * num)
+	fmt.Println(a && b)
+	fmt.Println(a || b)
+	fmt.Println(!b)
+
 }
