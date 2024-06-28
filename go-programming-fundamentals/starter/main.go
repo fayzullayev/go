@@ -14,6 +14,8 @@ const (
 	Saturday
 )
 
+// Chapter 3
 func main() {
 	fmt.Print()
+
 }
