@@ -2,20 +2,16 @@ package main
 
 import "fmt"
 
-type Weekday int
-
-const (
-	Sunday Weekday = iota << 3
-	Monday
-	Tuesday
-	Wednesday
-	Thursday
-	Friday
-	Saturday
-)
-
-// Chapter 3
 func main() {
-	fmt.Print()
+	var num int
+
+	if num < 5 {
+		fmt.Println(num)
+		num++
+		goto LOOP
+	}
+
+LOOP:
+	fmt.Println("Hello")
 
 }
