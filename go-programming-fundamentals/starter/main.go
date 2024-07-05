@@ -3,15 +3,22 @@ package main
 import "fmt"
 
 func main() {
-	var num int
+	causePanic()
+}
 
-	if num < 5 {
-		fmt.Println(num)
-		num++
-		goto LOOP
-	}
+func causePanic() {
+	defer func() {
+		fmt.Println("Deferred calls run even if a function panics.")
+	}()
 
-LOOP:
-	fmt.Println("Hello")
+	panic("A runtime error has occurred")
+}
+
+func handlePanic() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered from panic:", r)
+		}
+	}()
 
 }
