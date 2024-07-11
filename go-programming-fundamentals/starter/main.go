@@ -1,17 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
-	causePanic()
-}
+	os.Kill
+	handlePanic()
 
-func causePanic() {
-	defer func() {
-		fmt.Println("Deferred calls run even if a function panics.")
-	}()
-
-	panic("A runtime error has occurred")
+	fmt.Println("Execution resumes here, after recovery")
 }
 
 func handlePanic() {
@@ -21,4 +19,12 @@ func handlePanic() {
 		}
 	}()
 
+	causePanic()
+
+	fmt.Println("This statement will not be executed")
+}
+
+func causePanic() {
+	defer fmt.Println("Deferred calls run even if a function panics.")
+	panic("A runtime error has occurred.")
 }
