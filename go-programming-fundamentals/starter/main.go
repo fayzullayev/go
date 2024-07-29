@@ -1,31 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+	"strings"
+)
 
-type Vehicle struct {
-	Make  string
-	Model string
-	Year  int
-}
-
-type Car struct {
-	Vehicle
-	BodyStyle string
-	Year      int
+type Person struct {
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+	Addr string `json:"addr,omitempty"`
 }
 
 func main() {
 
-	var myCar Car = Car{
-		Vehicle: Vehicle{
-			Make:  "gerg",
-			Model: "gerg",
-			Year:  0,
-		},
-		BodyStyle: "dasfasf",
-		Year:      2000,
-	}
+	t := reflect.TypeOf(Person{})
 
-	fmt.Println(myCar.Vehicle.Year)
+	field, _ := t.FieldByName("Addr")
+
+	fmt.Println(strings.Split(field.Tag.Get("json"), ",")[1])
 
 }
