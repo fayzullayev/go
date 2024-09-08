@@ -1,11 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
-	var name string
-	fmt.Println("name before :", name)
+	//ss := fmt.Sprintf("%.0f", 123.1312312)
 
-	fmt.Scanf("Hel %v llo", &name)
-	fmt.Println("My name is :", name)
+	n := math.Round(1234.5)
+
+	fmt.Println(n)
 }
