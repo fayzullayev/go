@@ -14,16 +14,16 @@ type App struct {
 func (app *App) Run() error {
 	var err error
 
-	server := gin.Default()
+	router := gin.Default()
 
-	err = server.SetTrustedProxies(nil)
+	err = router.SetTrustedProxies(nil)
 	if err != nil {
 		return err
 	}
 
-	handlers.Register(server, app)
+	handlers.Register(router, app)
 
-	err = server.Run(":" + app.port)
+	err = router.Run(":" + app.port)
 	if err != nil {
 		return err
 	}
