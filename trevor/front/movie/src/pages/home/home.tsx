@@ -1,7 +1,7 @@
 import { HomeContainer } from "./style.ts";
 
 function Home() {
-  return <HomeContainer></HomeContainer>;
+  return <HomeContainer>Hello</HomeContainer>;
 }
 
 export default Home;
