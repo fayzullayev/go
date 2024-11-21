@@ -3,7 +3,6 @@ import { Button } from "antd";
 import { FormWrapper, LoginContainer } from "./style.ts";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 import CustomInput from "../../components/form/custom-input";
-import { forwardRef } from "react";
 
 type Fields = {
   login: string;
@@ -32,6 +31,7 @@ function Login() {
 
             <br />
             <br />
+            <br />
 
             <CustomInput
               title={"Password"}
@@ -43,6 +43,8 @@ function Login() {
 
             <br />
             <br />
+            <br />
+
             <Button type="primary" htmlType={"submit"}>
               Primary Button
             </Button>

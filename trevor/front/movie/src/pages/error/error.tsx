@@ -28,8 +28,6 @@ function Error() {
     error.status = 0;
   }
 
-  console.log(error);
-
   return (
     <ErrorContainer>
       <Result
