@@ -1,18 +1,20 @@
-//https://www.w3schools.com/go/go_arrays.php
-
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	var txt1 string = "Hello"
-	var txt2 string
-	txt3 := "World 1"
+	a := map[string]int{"one": 1, "two": 2, "three": 3, "four": 4}
 
-	fmt.Printf("Type: %T, value: %s\n", txt1, txt1)
-	fmt.Printf("Type: %T, value: %s\n", txt2, txt2)
-	fmt.Printf("Type: %T, value: %s\n", txt3, txt3[len(txt3)-1:])
+	var b = []string{"one", "two", "three", "four"} // defining the order
+
+	for k, v := range a { // loop with no order
+		fmt.Printf("%v : %v, ", k, v)
+	}
+
+	fmt.Println()
+
+	for _, element := range b { // loop with the defined order
+		fmt.Printf("%v : %v, ", element, a[element])
+	}
 
 }
