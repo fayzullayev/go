@@ -1,13 +1,18 @@
-//https://golangbot.com/functions/
+//https://golangbot.com/go-packages/
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
+
+func rectProps(length, width float64) (float64, float64) {
+	var area = length * width
+	var perimeter = (length + width) * 2
+	return area, perimeter
+}
 
 func main() {
-	//var i = 5
-	//var f = 5.6
-	//var c = 5 + 6i
-	fmt.Printf("i's type is %T, f's type is %T, c's type is %T", 1, 2, 3)
-
+	area, perimeter := rectProps(10.8, 5.6)
+	fmt.Printf("Area %0.f Perimeter %0.f", area, perimeter)
 }
