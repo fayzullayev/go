@@ -1,15 +1,17 @@
-//https://golangbot.com/if-statement/
+//https://golangbot.com/pointers/
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
+func mutate(s []rune) string {
+	s[0] = 'a'
+	return string(s)
+}
 func main() {
-	countries := []string{"USA", "Singapore", "UK", "India", "France", "Indonesia"}
-	neededCountries := countries[:len(countries)-2]
-	fmt.Println(neededCountries, len(neededCountries), cap(neededCountries))
-	copyiedCountries := make([]string, len(neededCountries))
-	fmt.Println(copyiedCountries, len(copyiedCountries), cap(copyiedCountries))
-	copy(copyiedCountries, neededCountries)
-	fmt.Println(copyiedCountries, len(copyiedCountries), cap(copyiedCountries))
+	h := "😙ello"
+
+	fmt.Println(mutate([]rune(h)))
 }
