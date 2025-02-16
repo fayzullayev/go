@@ -1,0 +1,10 @@
+APP:
+  PORT: 1234
+
+DATABASE:
+#  DSN: postgres://mirodil:54321@localhost:5432/todo?sslmode=disable
+  HOST: localhost
+  PORT: 5432
+  USER: mirodil
+  PASSWORD: 54321
+  DBNAME: todo
