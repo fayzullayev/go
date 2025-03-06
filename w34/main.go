@@ -1,42 +1,39 @@
 package main
 
 import (
-	"errors"
+	"embed"
+	_ "embed"
 	"fmt"
+	"io/fs"
+	"log"
 )
 
-type DBError struct {
-	desc string
-}
-
-func (dbError DBError) Error() string {
-	return dbError.desc
-}
-
-func getRecord() error {
-	return DBError{
-		desc: "no rows found",
-	}
-}
-
-func webService() error {
-	if err := getRecord(); err != nil {
-		return fmt.Errorf("error %w when calling DB", err)
-	}
-	return nil
-}
+//go:embed just_files/* hhhhhh/*
+var myFiles embed.FS
 
 func main() {
-	if err := webService(); err != nil {
-		var dbError DBError
-		if errors.As(err, &dbError) {
-			fmt.Printf("The searched record cannot be found. Error returned from DB is %s", dbError)
-			return
-		}
-		fmt.Println("unknown error when searching record")
-		return
+	files, err := fs.ReadDir(myFiles, "just_files")
 
+	if err != nil {
+		log.Fatal(err)
 	}
-	fmt.Println("webservice call successful")
+
+	for _, file := range files {
+		fmt.Println("Found file:", file.Name())
+		content, _ := myFiles.ReadFile("just_files/" + file.Name())
+		fmt.Println(string(content))
+	}
+
+	fmt.Println("----------------------")
+
+	customFile, err := fs.ReadDir(myFiles, "hhhhhh")
+
+	fmt.Println("customFile", customFile)
+
+	for _, c := range customFile {
+		fmt.Println("Found file:", c.Name())
+		content, _ := myFiles.ReadFile("hhhhhh/" + c.Name())
+		fmt.Println(string(content))
+	}
 
 }
