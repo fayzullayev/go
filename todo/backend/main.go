@@ -23,7 +23,7 @@ func main() {
 
 	r.GET("/todos", func(c *gin.Context) {
 
-		rows, err := db.Query("SELECT * FROM todos")
+		rows, err := db.Query("SELECT * FROM todoss")
 		defer rows.Close()
 
 		if err != nil {
